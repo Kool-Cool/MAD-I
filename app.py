@@ -1,6 +1,6 @@
 #  controller
 
-from flask import Flask
+from flask import Flask , render_template
 from flask import jsonify
 from models import db ,init_db ,Admin , Sponsor , Influencer ,Campaign , AdRequest
 
@@ -19,7 +19,7 @@ def create_tables():
 #Routes
 @app.route("/")
 def home():
-    return "Initial Setup"
+    return render_template("index.html")
 
 
 
@@ -40,7 +40,10 @@ def get_all_data():
     })
 
 
+
+
+
 if __name__ == '__main__':
     with app.app_context():
         init_db(app)
-    app.run()
+    app.run(debug=True)
