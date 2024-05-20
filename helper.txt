@@ -1,0 +1,55 @@
+DataBase Schema
+
+CREATE TABLE `admin` (
+  `id` INT AUTO_INCREMENT,
+  `name` VARCHAR(255) UNIQUE,
+  `password` VARCHAR(255) ,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `sponsor` (
+  `id` INT AUTO_INCREMENT,
+  `password` VARCHAR(255) UNIQUE,
+  `name` VARCHAR(255) UNIQUE,
+  `industry` VARCHAR(255) ,
+  `budget` DECIMAL(10,2),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `influencer` (
+  `id` INT AUTO_INCREMENT,
+  `password` VARCHAR(255) UNIQUE,
+  `name` VARCHAR(255) UNIQUE,
+  `category` VARCHAR(255) ,
+  `niche` VARCHAR(255) ,
+  `reach` DECIMAL(10,2),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `campaign` (
+  `id` INT AUTO_INCREMENT,
+  `name` VARCHAR(255) UNIQUE,
+  `description` TEXT,
+  `start_date` DATE,
+  `end_date` DATE,
+  `budget` DECIMAL(10,2),
+  `visibility ` ENUM(public, private),
+  `goals` TEXT,
+  `sponsor_id` INT,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`sponsor_id`) REFERENCES `sponsor`(`id`)
+);
+
+CREATE TABLE `ad_request` (
+  `id` INT AUTO_INCREMENT,
+  `campaign_id` INT,
+  `influencer_id` INT,
+  `messages` TEXT,
+  `requirements` TEXT,
+  `payment_amount` DECIMAL(10,2),
+  `status` ENUM(pending, accepted, rejected),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`influencer_id`) REFERENCES `influencer`(`id`),
+  FOREIGN KEY (`campaign_id`) REFERENCES `campaign`(`id`)
+);
+
