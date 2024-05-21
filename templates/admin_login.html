@@ -21,14 +21,17 @@
         {% endif %}
         {% endwith %}
 
-        
-        <form   method='POST'>
+
+        <form method='POST'>
             <label for="name">Name:</label><br>
             <input type="text" id="name" name="name" value="John"><br>
             <label for="password">Password:</label><br>
             <input type="text" id="password" name="password" value="Doe"><br><br>
-            <input type="submit" value="Submit">
-          </form> 
+            <input type="submit" value="Log In">
+        </form>
+        
+        <button onclick="location.href='/admin/registration'"> New Admin Registration !</button>
+
     </div>
 </body>
 </html>

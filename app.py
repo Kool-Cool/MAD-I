@@ -29,18 +29,11 @@ def create_tables():
 def home():
     return render_template("index.html")
 
-@app.route('/admin/<name>', methods=['GET'])
-def get_admin(name):
-    admin_data = get_admin_by_name(name)
-    if admin_data is not None:
-        return jsonify(admin_data)
-    else:
-        return "No admin found with this name", 404
-
 
 @app.route("/logout")
 def logout():
-    session.pop("user_name", None)
+    session.clear()
+
     flash("Log out successful", "success")
     return redirect(url_for("home"))
 

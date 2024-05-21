@@ -15,24 +15,26 @@ def admin_registration():
 
 @admin.route("/login", methods=['GET', 'POST'])
 def admin_login():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            # and this user_name of admin
+            return redirect(url_for("admin.admin_dashboard"))
+        else:
+            redirect(url_for("app.home"))
+
 
     if request.method == "POST":
         admin_name =  request.form.get('name')
         admin_pass = request.form.get('password')
-        print("___________________")
-        print(admin_pass ,admin_name )
 
-        if admin_name in session:
-            return redirect(url_for("admin.admin_dashboard"))
-        
         admin_data = helper.get_admin_by_name(admin_name)
         if admin_data :
             if admin_name == admin_data["name"] and admin_pass==admin_data["password"]:
                 session["user_name"] = admin_name # We are using UserName (so that no two User (admin/contractor/influncer) login at same)
+                session["role"]="admin"
                 return redirect(url_for("admin.admin_dashboard"))
             else:
                 flash("Please enter Correct Information !!")
-
         else:
             flash("Please enter Correct Information !!")
 
