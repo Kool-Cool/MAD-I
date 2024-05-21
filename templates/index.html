@@ -10,9 +10,28 @@
 
     <div id="navbar">
         
-            <a class="navbar-brand" href="#"><button> Admin Login Only</button></a>
+            <a class="navbar-brand" href="/admin/login"><button> Admin Login Only</button></a>
         
     </div>
+
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for message in messages %}
+                    <li>
+                        {{message}}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+
 
 
     <div id="button_body">

@@ -1,16 +1,23 @@
 #  controller app.py
 
-from flask import Flask , render_template
+from flask import Flask , render_template , session ,flash , redirect , url_for
 from flask import jsonify
 from models import db ,init_db ,Admin , Sponsor , Influencer ,Campaign , AdRequest
+
 from api import api
+from admin import admin
+
+from helper import get_admin_by_name
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db.init_app(app)
 
+
 app.register_blueprint(api, url_prefix='/api')  
+app.register_blueprint(admin, url_prefix='/admin')
+
 
 @app.before_request
 def create_tables():
@@ -22,12 +29,20 @@ def create_tables():
 def home():
     return render_template("index.html")
 
+@app.route('/admin/<name>', methods=['GET'])
+def get_admin(name):
+    admin_data = get_admin_by_name(name)
+    if admin_data is not None:
+        return jsonify(admin_data)
+    else:
+        return "No admin found with this name", 404
 
 
-
-
-
-
+@app.route("/logout")
+def logout():
+    session.pop("user_name", None)
+    flash("Log out successful", "success")
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     with app.app_context():

@@ -80,8 +80,6 @@ def init_db(app):
         db.session.add(influencer)
         db.session.commit()
         
-        print(sponsor.id)
-        print("________________________")
         start_date = datetime.strptime('2024-01-01', '%Y-%m-%d').date()
         end_date = datetime.strptime('2025-12-31', '%Y-%m-%d').date()
         
