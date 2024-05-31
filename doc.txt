@@ -112,13 +112,11 @@ end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
 [5] Flagged items
 
 
-
-
-# TO DO
-(i)     Admin Dashboard (show all campaigns , users)
-(ii)    Abitlity to Flag Campaigns (only !)
-(iii)    
+   
 
 make 2 tabled 
 Flag User and FlagCampaingh
 `admin_allflags.html` : make 2 sections (User | Campaign)
+
+chore : done with Admin Functionalities !!
+
