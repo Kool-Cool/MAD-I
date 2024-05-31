@@ -1,5 +1,130 @@
-THis is Dashboard for admin
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-header {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .dashboard-card {
+            margin-bottom: 20px;
+        }
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        .nav-bar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-bar">
+        <a class="navbar-brand" href="#">Admin Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
 
-{{data}}
+                <li class="nav-item">
+                    <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome, {{info_data["user_name"]}}!</h1>
+            <p>Manage your platform efficiently</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="card-text" id="total-users">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Sponsors</h5>
+                        <p class="card-text" id="total-sponsors">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Influencers</h5>
+                        <p class="card-text" id="total-influencers">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Flagged Items</h5>
+                        <p class="card-text" id="flagged-items">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Campaigns</h5>
+                        <p class="card-text">Public: <span id="total-campaigns-public">0</span></p>
+                        <p class="card-text">Private: <span id="total-campaigns-private">0</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Ad Requests</h5>
+                        <p class="card-text">Pending: <span id="total-ad-requests-pending">0</span></p>
+                        <p class="card-text">Rejected: <span id="total-ad-requests-rejected">0</span></p>
+                        <p class="card-text">Negotiation: <span id="total-ad-requests-negotiation">0</span></p>
+                        <p class="card-text">Accepted: <span id="total-ad-requests-accepted">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<button onclick="location.href='/logout'"> LogOut !</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Fetching data from the server and updating the dashboard
+            fetch('/admin/dashboard/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-users').textContent = data.total_users;
+                    document.getElementById('total-sponsors').textContent = data.total_sponsors;
+                    document.getElementById('total-campaigns-public').textContent = data.total_campaigns_public;
+                    document.getElementById('total-campaigns-private').textContent = data.total_campaigns_private;
+                    document.getElementById('total-ad-requests-pending').textContent = data.total_ad_requests_pending;
+                    document.getElementById('total-ad-requests-rejected').textContent = data.total_ad_requests_rejected;
+                    document.getElementById('total-ad-requests-negotiation').textContent = data.total_ad_requests_negotiation;
+                    document.getElementById('total-ad-requests-accepted').textContent = data.total_ad_requests_accepted;
+                    document.getElementById('total-influencers').textContent = data.total_influencers;
+                    document.getElementById('flagged-items').textContent = data.flagged_items;
+                })
+                .catch(error => console.error('Error fetching dashboard data:', error));
+        });
+    </script>
+</body>
+</html>

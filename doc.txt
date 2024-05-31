@@ -80,9 +80,33 @@ CREATE TABLE flags (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );
 
-`flask --app app.py --debug run`
+
+
+
+
+>>>`flask --app app.py --debug run`
+
+
+
+
 
 # SQLite expects these values to be Python date objects, not strings.
 # Convert to Python date objects
 start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
 end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+
+
+
+
+# Admin Dashboard 
+[0] Total Users
+[1] Total Number of Sponsors
+[2] Total Number of Campaigns - |_ private
+                                |_ public
+[3] Total Number of ad_request  |_ pending
+                                |_ rejected
+                                |_ negotiation
+                                |_ accepted
+[4] Total Number of Influencers 
+[5] Flagged items

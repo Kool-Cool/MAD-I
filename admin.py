@@ -2,8 +2,8 @@
 # Controller for admin login and registration
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from models import db , User
-from flask import session , flash
+from models import db , User,Sponsor ,Campaign ,AdRequest ,Influencer ,Flag
+from flask import session , flash ,jsonify
 import helper
 
 admin = Blueprint('admin', __name__)
@@ -39,7 +39,7 @@ def admin_login():
             # and this user_name of admin
             return redirect(url_for("admin.admin_dashboard"))
         else:
-            redirect(url_for("app.home"))
+            return redirect(url_for("app.home"))
 
 
     if request.method == "POST":
@@ -63,7 +63,36 @@ def admin_login():
 
 @admin.route("/dashboard")
 def admin_dashboard():
-    return render_template("admin_dashboard.html" , data=session)
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
 
+            return render_template("admin_dashboard.html" , info_data=session)
+    return redirect(url_for("app.home"))
 
-
+@admin.route('/dashboard/data', methods=['GET'])
+def admin_dashboard_data():
+    total_users = User.query.count()
+    total_sponsors = Sponsor.query.count()
+    total_campaigns_public = Campaign.query.filter_by(visibility='public').count()
+    total_campaigns_private = Campaign.query.filter_by(visibility='private').count()
+    total_ad_requests_pending = AdRequest.query.filter_by(status='pending').count()
+    total_ad_requests_rejected = AdRequest.query.filter_by(status='rejected').count()
+    total_ad_requests_negotiation = AdRequest.query.filter_by(status='negotiation').count()
+    total_ad_requests_accepted = AdRequest.query.filter_by(status='accepted').count()
+    total_influencers = Influencer.query.count()
+    flagged_items = Flag.query.count()
+    
+    data = {
+        'total_users': total_users,
+        'total_sponsors': total_sponsors,
+        'total_campaigns_public': total_campaigns_public,
+        'total_campaigns_private': total_campaigns_private,
+        'total_ad_requests_pending': total_ad_requests_pending,
+        'total_ad_requests_rejected': total_ad_requests_rejected,
+        'total_ad_requests_negotiation': total_ad_requests_negotiation,
+        'total_ad_requests_accepted': total_ad_requests_accepted,
+        'total_influencers': total_influencers,
+        'flagged_items': flagged_items
+    }
+    
+    return jsonify(data)

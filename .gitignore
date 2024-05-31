@@ -1,9 +1,35 @@
-/__pycache__
-__pycache__
-/instance
-instance/test.db
+# Ignore compiled Python files
+__pycache__/
 *.pyc
+
+# Ignore virtual environment
+venv/
+
+# Ignore instance-specific configuration files
+instance/
+
+
+# Ignore any sensitive environment files (e.g., .env)
+*.env
+
+# Ignore database files
 *.db
-/instance
-instance/test.db
-*.pyc
+
+# Ignore logs
+*.log
+
+
+# Ignore any temporary or backup files
+*.bak
+*.swp
+*.tmp
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+__pycache__/admin.cpython-312.pyc
