@@ -79,3 +79,10 @@ CREATE TABLE flags (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );
+
+
+
+# SQLite expects these values to be Python date objects, not strings.
+# Convert to Python date objects
+start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()

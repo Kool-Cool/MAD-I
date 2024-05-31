@@ -1,6 +1,6 @@
 # models
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime , date
 
 db = SQLAlchemy()
 
@@ -121,9 +121,9 @@ class Flag(db.Model):
 
 
 
-from flask import Flask
 
-def init_db(app: Flask):
+
+def init_db(app):
     with app.app_context():
         db.create_all()
         
@@ -150,8 +150,8 @@ def init_db(app: Flask):
                 sponsor_id=sponsor_data.sponsor_id, 
                 name='Campaign 1', 
                 description='Description of campaign 1', 
-                start_date='2024-01-01', 
-                end_date='2024-12-31', 
+                start_date=date(2024, 1, 1),  
+                end_date=date(2024, 12, 31),
                 budget=5000.00, 
                 visibility='public', 
                 goals='Increase brand awareness'
