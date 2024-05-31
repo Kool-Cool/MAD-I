@@ -1,55 +1,81 @@
-DataBase Schema
-
-CREATE TABLE `admin` (
-  `id` INT AUTO_INCREMENT,
-  `name` VARCHAR(255) UNIQUE,
-  `password` VARCHAR(255) ,
-  PRIMARY KEY (`id`)
+-- Users Table
+CREATE TABLE users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    role TEXT CHECK(role IN ('admin', 'sponsor', 'influencer')) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE `sponsor` (
-  `id` INT AUTO_INCREMENT,
-  `password` VARCHAR(255) UNIQUE,
-  `name` VARCHAR(255) UNIQUE,
-  `industry` VARCHAR(255) ,
-  `budget` DECIMAL(10,2),
-  PRIMARY KEY (`id`)
+-- Sponsors Table
+CREATE TABLE sponsors (
+    sponsor_id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    company_name TEXT,
+    industry TEXT,
+    budget REAL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE `influencer` (
-  `id` INT AUTO_INCREMENT,
-  `password` VARCHAR(255) UNIQUE,
-  `name` VARCHAR(255) UNIQUE,
-  `category` VARCHAR(255) ,
-  `niche` VARCHAR(255) ,
-  `reach` DECIMAL(10,2),
-  PRIMARY KEY (`id`)
+-- Influencers Table
+CREATE TABLE influencers (
+    influencer_id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    name TEXT,
+    category TEXT,
+    niche TEXT,
+    reach INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE `campaign` (
-  `id` INT AUTO_INCREMENT,
-  `name` VARCHAR(255) UNIQUE,
-  `description` TEXT,
-  `start_date` DATE,
-  `end_date` DATE,
-  `budget` DECIMAL(10,2),
-  `visibility ` ENUM(public, private),
-  `goals` TEXT,
-  `sponsor_id` INT,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`sponsor_id`) REFERENCES `sponsor`(`id`)
+-- Campaigns Table
+CREATE TABLE campaigns (
+    campaign_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sponsor_id INTEGER,
+    name TEXT NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    budget REAL,
+    visibility TEXT CHECK(visibility IN ('public', 'private')),
+    goals TEXT,
+    FOREIGN KEY (sponsor_id) REFERENCES sponsors(sponsor_id)
 );
 
-CREATE TABLE `ad_request` (
-  `id` INT AUTO_INCREMENT,
-  `campaign_id` INT,
-  `influencer_id` INT,
-  `messages` TEXT,
-  `requirements` TEXT,
-  `payment_amount` DECIMAL(10,2),
-  `status` ENUM(pending, accepted, rejected),
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`influencer_id`) REFERENCES `influencer`(`id`),
-  FOREIGN KEY (`campaign_id`) REFERENCES `campaign`(`id`)
+-- Ad Requests Table
+CREATE TABLE ad_requests (
+    ad_request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    campaign_id INTEGER,
+    influencer_id INTEGER,
+    requirements TEXT,
+    payment_amount REAL,
+    status TEXT CHECK(status IN ('pending', 'accepted', 'rejected', 'negotiation')),
+    messages TEXT,
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id),
+    FOREIGN KEY (influencer_id) REFERENCES influencers(influencer_id)
 );
 
+-- Negotiations Table
+CREATE TABLE negotiations (
+    negotiation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ad_request_id INTEGER,
+    influencer_id INTEGER,
+    proposed_payment_amount REAL,
+    negotiation_status TEXT CHECK(negotiation_status IN ('pending', 'accepted', 'rejected')),
+    FOREIGN KEY (ad_request_id) REFERENCES ad_requests(ad_request_id),
+    FOREIGN KEY (influencer_id) REFERENCES influencers(influencer_id)
+);
+
+-- Flags Table for inappropriate campaigns/users
+CREATE TABLE flags (
+    flag_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    flagged_by INTEGER,
+    user_id INTEGER,
+    campaign_id INTEGER,
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (flagged_by) REFERENCES users(user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
+);
