@@ -120,3 +120,13 @@ Flag User and FlagCampaingh
 
 chore : done with Admin Functionalities !!
 
+
+
+
+
+Campaign Management - for the sponsors
+[1] CURD Campaigns
+[2] Categorize it into various niches.
+
+>> update database !!!
+

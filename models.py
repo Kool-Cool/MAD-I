@@ -68,6 +68,7 @@ class Campaign(db.Model):
     budget = db.Column(db.Numeric(10, 2))
     visibility = db.Column(db.Enum("public", "private"))
     goals = db.Column(db.Text)
+    niche = db.Column(db.String(255), nullable=False)  # New field for niche
 
     ad_requests = db.relationship("AdRequest", backref="campaign", lazy=True)
     campaign_flags = db.relationship("CampaignFlag", backref="campaign", lazy=True)
@@ -190,6 +191,7 @@ def init_db(app):
                 budget=5000.00,
                 visibility="public",
                 goals="Increase brand awareness",
+                niche = "health"  # New field for niche
             )
 
             db.session.add(campaign)
