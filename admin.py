@@ -39,7 +39,7 @@ def admin_login():
             # and this user_name of admin
             return redirect(url_for("admin.admin_dashboard"))
         else:
-            return redirect(url_for("app.home"))
+            return redirect(url_for("home"))
 
 
     if request.method == "POST":
@@ -68,7 +68,7 @@ def admin_dashboard():
         if session["role"] == "admin":
 
             return render_template("admin_dashboard.html" , info_data=session)
-    return redirect(url_for("app.home"))
+    return redirect(url_for("home"))
 
 @admin.route('/dashboard/data', methods=['GET'])
 def admin_dashboard_data():
