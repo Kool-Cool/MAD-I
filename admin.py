@@ -2,7 +2,7 @@
 # Controller for admin login and registration
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from models import db, Admin
+from models import db
 from flask import session , flash
 import helper
 

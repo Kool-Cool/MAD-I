@@ -2,7 +2,7 @@
 
 from flask import Flask , render_template , session ,flash , redirect , url_for
 from flask import jsonify
-from models import db ,init_db ,Admin , Sponsor , Influencer ,Campaign , AdRequest
+from models import db ,init_db , Sponsor , Influencer ,Campaign , AdRequest
 
 from api import api
 from admin import admin
@@ -12,6 +12,7 @@ from helper import get_admin_by_name
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
