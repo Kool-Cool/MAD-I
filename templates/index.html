@@ -1,49 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Your Role</title>
-    
-    <link rel="stylesheet" href="static\index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .body-content {
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-start;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #navbar {
+            width: 100%;
+            padding: 10px;
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+        }
+
+        #navbar button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #flash {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #button_body {
+            text-align: center;
+        }
+
+        #button_body h1 {
+            margin-bottom: 30px;
+        }
+
+        .button button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            height: 200px;
+            width: 300px;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 40px;
+            font-weight: 400;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
-
+    <div class="header">
     <div id="navbar">
-        
-            <a class="navbar-brand" href="/admin/login"><button> Admin Login Only</button></a>
-        
+        <a class="navbar-brand" href="/admin/login"><button>Admin Login Only</button></a>
     </div>
-
 
     <div id="flash">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="alert alert-danger">
-                <ul>
-                    {% for message in messages %}
-                    <li>
-                        {{message}}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
         {% endwith %}
     </div>
+</div>
 
-
-
-
+    <div class="body-content">
     <div id="button_body">
         <h1>Choose Your Role</h1>
         <div class="button">
-            <button  onclick="location.href='#'">Sponsor</button>
-            <button  onclick="location.href='#'">Influencer </button>
-
+            <button onclick="location.href='#'">Sponsor</button>
+            <button onclick="location.href='#'">Influencer</button>
         </div>
-
     </div>
-    
+</div>
 
 </body>
-</html> 
+
+</html>
