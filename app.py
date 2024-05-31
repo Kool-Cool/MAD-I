@@ -6,6 +6,7 @@ from models import db ,init_db , Sponsor , Influencer ,Campaign , AdRequest
 
 from api import api
 from admin import admin
+from sponsor import sponsor
 
 from helper import get_data_by_name
 
@@ -18,6 +19,8 @@ db.init_app(app)
 
 app.register_blueprint(api, url_prefix='/api')  
 app.register_blueprint(admin, url_prefix='/admin')
+app.register_blueprint(sponsor, url_prefix='/sponsor')
+
 
 
 @app.before_request
