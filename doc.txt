@@ -80,7 +80,7 @@ CREATE TABLE flags (
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id)
 );
 
-
+`flask --app app.py --debug run`
 
 # SQLite expects these values to be Python date objects, not strings.
 # Convert to Python date objects

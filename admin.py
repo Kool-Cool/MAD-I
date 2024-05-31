@@ -27,9 +27,10 @@ def admin_login():
         admin_name =  request.form.get('name')
         admin_pass = request.form.get('password')
 
-        admin_data = helper.get_admin_by_name(admin_name)
+        admin_data = helper.get_data_by_name(admin_name)
+        # print(admin_data)
         if admin_data :
-            if admin_name == admin_data["name"] and admin_pass==admin_data["password"]:
+            if admin_name == admin_data["username"] and admin_pass==admin_data["password"] and admin_data["role"]=='admin':
                 session["user_name"] = admin_name # We are using UserName (so that no two User (admin/contractor/influncer) login at same)
                 session["role"]="admin"
                 return redirect(url_for("admin.admin_dashboard"))
@@ -43,7 +44,7 @@ def admin_login():
 
 @admin.route("/dashboard")
 def admin_dashboard():
-    return render_template("admin_dashboard.html")
+    return render_template("admin_dashboard.html" , data=session)
 
 
 

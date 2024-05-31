@@ -6,3 +6,4 @@ instance/test.db
 *.db
 /instance
 instance/test.db
+*.pyc

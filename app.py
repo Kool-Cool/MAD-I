@@ -7,7 +7,7 @@ from models import db ,init_db , Sponsor , Influencer ,Campaign , AdRequest
 from api import api
 from admin import admin
 
-from helper import get_admin_by_name
+from helper import get_data_by_name
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
