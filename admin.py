@@ -2,14 +2,33 @@
 # Controller for admin login and registration
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from models import db
+from models import db , User
 from flask import session , flash
 import helper
 
 admin = Blueprint('admin', __name__)
 
-@admin.route("/registration")
+@admin.route("/registration" ,methods=['GET', 'POST'])
 def admin_registration():
+    
+    if request.method == "POST":
+        new_username = request.form.get("username") 
+        new_password = request.form.get("password")
+        new_email = request.form.get("email") 
+        new_role = request.form.get("role")
+
+        add_admin = User(username=new_username, password=new_password, email=new_email, role=new_role)
+        
+        try:
+            db.session.add(add_admin)  
+            db.session.commit()
+            flash("Registered New Admin Successfully", "success")
+            return redirect(url_for('admin.admin_login'))
+        except Exception as e:
+            error_message = str(e).split('\n')[0]  # Get the first line of the error
+            flash(f"Error: {error_message}", "error")
+            db.session.rollback()  
+        
     return render_template("admin_registration.html")
 
 

@@ -131,7 +131,7 @@ def init_db(app):
         if not User.query.first():
             # Add dummy data
             admin = User(username='admin', password='password', email='admin@example.com', role='admin')
-            sponsor = User(username='sponsor', password='password', email='sponsor@example.com', role='sponsor')
+            sponsor = User(username='z', password='password', email='sponsor@example.com', role='sponsor')
             influencer = User(username='influencer', password='password', email='influencer@example.com', role='influencer')
 
             db.session.add(admin)
