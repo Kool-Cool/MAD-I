@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Ad Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>All Ad Requests</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ad Request ID</th>
+                    <th>Campaign ID</th>
+                    <th>Influencer ID</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ad_request in ad_requests %}
+                <tr>
+                    <td>{{ ad_request.ad_request_id }}</td>
+                    <td>{{ ad_request.campaign_id }}</td>
+                    <td>{{ ad_request.influencer_id }}</td>
+                    <td>{{ ad_request.request_date }}</td>
+                    <td>{{ ad_request.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

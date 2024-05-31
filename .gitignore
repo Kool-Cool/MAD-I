@@ -31,5 +31,3 @@ instance/
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
-
-__pycache__/admin.cpython-312.pyc

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Campaigns</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .flag-button {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>All Campaigns</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Campaign ID</th>
+                    <th>Sponsor ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Budget</th>
+                    <th>Visibility</th>
+                    <th>Goals</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                <tr>
+                    <td>{{ campaign.campaign_id }}</td>
+                    <td>{{ campaign.sponsor_id }}</td>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.description }}</td>
+                    <td>{{ campaign.start_date }}</td>
+                    <td>{{ campaign.end_date }}</td>
+                    <td>{{ campaign.budget }}</td>
+                    <td>{{ campaign.visibility }}</td>
+                    <td>{{ campaign.goals }}</td>
+                    <td><button class="flag-button" onclick="flagCampaign('{{ campaign.campaign_id }}')">Flag Campaign</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function flagCampaign(campaignId) {
+            const reason = prompt('Enter reason for flagging:');
+            if (reason) {
+                fetch(`/admin/flag/campaign/${campaignId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ reason: reason }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Campaign flagged successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -47,13 +47,13 @@
     <div class="container">
         <div class="dashboard-header">
             <h1>Welcome, {{info_data["user_name"]}}!</h1>
-            <p>Manage your platform efficiently</p>
+        
         </div>
         <div class="row">
             <div class="col-md-6 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Users</h5>
+                        <a href="{{ url_for('admin.all_users') }}"><h5 class="card-title">Total Users</h5></a>
                         <p class="card-text" id="total-users">0</p>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             <div class="col-md-6 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Sponsors</h5>
+                        <a href="{{ url_for('admin.all_sponsors') }}"><h5 class="card-title">Total Sponsors</h5></a>
                         <p class="card-text" id="total-sponsors">0</p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
             <div class="col-md-6 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Influencers</h5>
+                        <a href="{{ url_for('admin.all_influencers') }}"><h5 class="card-title">Total Influencers</h5></a>
                         <p class="card-text" id="total-influencers">0</p>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             <div class="col-md-6 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Flagged Items</h5>
+                        <a href="{{ url_for('admin.all_flags') }}"><h5 class="card-title">Flagged Campaigns</h5></a>
                         <p class="card-text" id="flagged-items">0</p>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
             <div class="col-md-12 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Campaigns</h5>
+                        <a href="{{ url_for('admin.all_campaigns') }}"><h5 class="card-title">Total Campaigns</h5></a>
                         <p class="card-text">Public: <span id="total-campaigns-public">0</span></p>
                         <p class="card-text">Private: <span id="total-campaigns-private">0</span></p>
                     </div>
@@ -94,7 +94,7 @@
             <div class="col-md-12 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Total Ad Requests</h5>
+                        <a href="{{ url_for('admin.all_adrequests') }}"><h5 class="card-title">Total Ad Requests</h5></a>
                         <p class="card-text">Pending: <span id="total-ad-requests-pending">0</span></p>
                         <p class="card-text">Rejected: <span id="total-ad-requests-rejected">0</span></p>
                         <p class="card-text">Negotiation: <span id="total-ad-requests-negotiation">0</span></p>
@@ -106,7 +106,7 @@
     </div>
 
 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             // Fetching data from the server and updating the dashboard

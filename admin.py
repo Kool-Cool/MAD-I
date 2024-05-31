@@ -52,6 +52,7 @@ def admin_login():
             if admin_name == admin_data["username"] and admin_pass==admin_data["password"] and admin_data["role"]=='admin':
                 session["user_name"] = admin_name # We are using UserName (so that no two User (admin/contractor/influncer) login at same)
                 session["role"]="admin"
+                session["user_id"] = admin_data["user_id"]
                 return redirect(url_for("admin.admin_dashboard"))
             else:
                 flash("Please enter Correct Information !!")
@@ -96,3 +97,96 @@ def admin_dashboard_data():
     }
     
     return jsonify(data)
+
+
+
+
+@admin.route('/allusers')
+def all_users():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+
+            data = dict()
+            
+            data["admin"] = [user.to_dict() for user in User.query.filter_by(role="admin").all()]
+            data["sponsor"] = [user.to_dict() for user in User.query.filter_by(role="sponsor").all()]
+            data["influencer"] = [user.to_dict() for user in User.query.filter_by(role="influencer").all()]
+
+            return render_template("admin_allusers.html", data=data)
+    return redirect(url_for("home"))
+
+
+
+@admin.route('/allsponsors')
+def all_sponsors():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            sponsors = Sponsor.query.all()
+            return render_template("admin_allsponsors.html", sponsors=sponsors)
+    return redirect(url_for("home"))
+
+
+
+@admin.route('/allinfluencers')
+def all_influencers():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            influencers = Influencer.query.all()
+            return render_template("admin_allinfluencers.html", influencers=influencers)
+    return redirect(url_for("home"))
+
+
+
+@admin.route('/allflags')
+def all_flags():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            flags = Flag.query.all()
+            return render_template("admin_allflags.html", flags=flags)
+    return redirect(url_for("home"))
+
+
+
+@admin.route('/allcampaigns')
+def all_campaigns():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            campaigns = Campaign.query.all()
+            return render_template("admin_allcampaigns.html", campaigns=campaigns)
+    return redirect(url_for("home"))
+
+@admin.route('/alladrequests')
+def all_adrequests():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            ad_requests = AdRequest.query.all()
+            return render_template("admin_alladrequests.html", ad_requests=ad_requests)
+    return redirect(url_for("home"))
+
+
+@admin.route('/flag/user/<int:user_id>', methods=['POST'])
+def flag_user(user_id):
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            data = request.get_json()
+            reason = data.get('reason')
+            flag = Flag(flagged_by=session["user_id"], user_id=user_id, reason=reason)
+            db.session.add(flag)
+            db.session.commit()
+            return jsonify({"message": "User flagged successfully!"}), 200
+    return jsonify({"message": "Unauthorized"}), 403
+
+@admin.route('/flag/campaign/<int:campaign_id>', methods=['POST'])
+def flag_campaign(campaign_id):
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            data = request.get_json()
+            reason = data.get('reason')
+            flag = Flag(flagged_by=session["user_id"], campaign_id=campaign_id, reason=reason)
+            db.session.add(flag)
+            db.session.commit()
+            return jsonify({"message": "Campaign flagged successfully!"}), 200
+    return jsonify({"message": "Unauthorized"}), 403
+
+
+

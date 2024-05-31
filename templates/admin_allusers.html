@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        .flag-button {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>All Users</h1>
+        
+        <h2>Admins</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in data.admin %}
+                <tr>
+                    <td>{{ admin.user_id }}</td>
+                    <td>{{ admin.username }}</td>
+                    <td>{{ admin.email }}</td>
+                    <td>{{ admin.created_at }}</td>
+                    <td><button class="flag-button" onclick="flagUser('{{ admin.user_id }}')">Flag User</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Sponsors</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sponsor in data.sponsor %}
+                <tr>
+                    <td>{{ sponsor.user_id }}</td>
+                    <td>{{ sponsor.username }}</td>
+                    <td>{{ sponsor.email }}</td>
+                    <td>{{ sponsor.created_at }}</td>
+                    <td><button class="flag-button" onclick="flagUser('{{ sponsor.user_id }}')">Flag User</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Influencers</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for influencer in data.influencer %}
+                <tr>
+                    <td>{{ influencer.user_id }}</td>
+                    <td>{{ influencer.username }}</td>
+                    <td>{{ influencer.email }}</td>
+                    <td>{{ influencer.created_at }}</td>
+                    <td><button class="flag-button" onclick="flagUser('{{ influencer.user_id }}')">Flag User</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function flagUser(userId) {
+            const reason = prompt('Enter reason for flagging:');
+            if (reason) {
+                fetch(`/admin/flag/user/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ reason: reason }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('User flagged successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

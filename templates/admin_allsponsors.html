@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Sponsors</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .flag-button {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>All Sponsors</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sponsor ID</th>
+                    <th>User ID</th>
+                    <th>Company Name</th>
+                    <th>Industry</th>
+                    <th>Budget</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sponsor in sponsors %}
+                <tr>
+                    <td>{{ sponsor.sponsor_id }}</td>
+                    <td>{{ sponsor.user_id }}</td>
+                    <td>{{ sponsor.company_name }}</td>
+                    <td>{{ sponsor.industry }}</td>
+                    <td>{{ sponsor.budget }}</td>
+                    <td><button class="flag-button" onclick="flagUser('{{ sponsor.user_id }}')">Flag User</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function flagUser(userId) {
+            const reason = prompt('Enter reason for flagging:');
+            if (reason) {
+                fetch(`/admin/flag/user/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ reason: reason }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('User flagged successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
