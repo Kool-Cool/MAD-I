@@ -1,6 +1,6 @@
 #api.py
 from flask import Blueprint, jsonify
-from models import User, Sponsor, Influencer, Campaign, AdRequest,Negotiation ,Flag
+from models import User, Sponsor, Influencer, Campaign, AdRequest,Negotiation ,UserFlag ,CampaignFlag
 
 api = Blueprint('api', __name__)
 
@@ -12,7 +12,8 @@ def get_all_data():
     campaigns = Campaign.query.all()
     ad_requests = AdRequest.query.all()
     negotiations = Negotiation.query.all() 
-    flags = Flag.query.all()
+    user_flags = UserFlag.query.all()
+    campaign_flags = CampaignFlag.query.all()
 
     return jsonify({
         'users': [User.to_dict() for User in users],
@@ -21,7 +22,8 @@ def get_all_data():
         'campaigns': [campaign.to_dict() for campaign in campaigns],
         'ad_requests': [ad_request.to_dict() for ad_request in ad_requests],
         'negotiations' : [negotiation.to_dict() for negotiation in negotiations],
-        'flags' : [flag.to_dict() for flag in flags]
+        'user_flag' : [user_flag.to_dict() for user_flag in user_flags],
+        "campaign_flag" : [campaign_flag.to_dict() for campaign_flag in campaign_flags]
     })
 
 @api.route('/sponsors' , methods=['GET'])

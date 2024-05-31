@@ -74,14 +74,25 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 dashboard-card">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ url_for('admin.all_flags') }}"><h5 class="card-title">Flagged Campaigns</h5></a>
-                        <p class="card-text" id="flagged-items">0</p>
+                        <a href="{{ url_for('admin.all_user_flags') }}"><h5 class="card-title">Flagged Users</h5></a>
+                        <p class="card-text" id="user-flagged-items">0</p>
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-6 dashboard-card">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ url_for('admin.all_campaign_flags') }}"><h5 class="card-title">Flagged Campaigns</h5></a>
+                        <p class="card-text" id="campaign-flagged-items">0</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="col-md-12 dashboard-card">
                 <div class="card">
                     <div class="card-body">
@@ -122,7 +133,9 @@
                     document.getElementById('total-ad-requests-negotiation').textContent = data.total_ad_requests_negotiation;
                     document.getElementById('total-ad-requests-accepted').textContent = data.total_ad_requests_accepted;
                     document.getElementById('total-influencers').textContent = data.total_influencers;
-                    document.getElementById('flagged-items').textContent = data.flagged_items;
+                    document.getElementById('user-flagged-items').textContent = data.flagged_users;
+                    document.getElementById('campaign-flagged-items').textContent = data.flagged_campaigns;
+
                 })
                 .catch(error => console.error('Error fetching dashboard data:', error));
         });

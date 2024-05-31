@@ -2,7 +2,7 @@
 # Controller for admin login and registration
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from models import db , User,Sponsor ,Campaign ,AdRequest ,Influencer ,Flag
+from models import db , User,Sponsor ,Campaign ,AdRequest ,Influencer ,UserFlag , CampaignFlag
 from flask import session , flash ,jsonify
 import helper
 
@@ -81,7 +81,8 @@ def admin_dashboard_data():
     total_ad_requests_negotiation = AdRequest.query.filter_by(status='negotiation').count()
     total_ad_requests_accepted = AdRequest.query.filter_by(status='accepted').count()
     total_influencers = Influencer.query.count()
-    flagged_items = Flag.query.count()
+    flagged_users = UserFlag.query.count()
+    flagged_campaigns = CampaignFlag.query.count() 
     
     data = {
         'total_users': total_users,
@@ -93,7 +94,8 @@ def admin_dashboard_data():
         'total_ad_requests_negotiation': total_ad_requests_negotiation,
         'total_ad_requests_accepted': total_ad_requests_accepted,
         'total_influencers': total_influencers,
-        'flagged_items': flagged_items
+        'flagged_users': flagged_users,
+        'flagged_campaigns' :flagged_campaigns
     }
     
     return jsonify(data)
@@ -137,15 +139,23 @@ def all_influencers():
 
 
 
-@admin.route('/allflags')
-def all_flags():
+@admin.route('/alluserflags')
+def all_user_flags():
     if "user_name" in session and "role" in session:
         if session["role"] == "admin":
-            flags = Flag.query.all()
-            return render_template("admin_allflags.html", flags=flags)
+            flags = UserFlag.query.all()
+            return render_template("admin_alluserflags.html", flags=flags)
     return redirect(url_for("home"))
 
 
+
+@admin.route('/allcampaignflags')
+def all_campaign_flags():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "admin":
+            flags = CampaignFlag.query.all()
+            return render_template("admin_allcampaignflags.html", flags=flags)
+    return redirect(url_for("home"))
 
 @admin.route('/allcampaigns')
 def all_campaigns():
@@ -170,7 +180,7 @@ def flag_user(user_id):
         if session["role"] == "admin":
             data = request.get_json()
             reason = data.get('reason')
-            flag = Flag(flagged_by=session["user_id"], user_id=user_id, reason=reason)
+            flag = UserFlag(flagged_by=session["user_id"], user_id=user_id, reason=reason)
             db.session.add(flag)
             db.session.commit()
             return jsonify({"message": "User flagged successfully!"}), 200
@@ -182,7 +192,7 @@ def flag_campaign(campaign_id):
         if session["role"] == "admin":
             data = request.get_json()
             reason = data.get('reason')
-            flag = Flag(flagged_by=session["user_id"], campaign_id=campaign_id, reason=reason)
+            flag = CampaignFlag(flagged_by=session["user_id"], campaign_id=campaign_id, reason=reason)
             db.session.add(flag)
             db.session.commit()
             return jsonify({"message": "Campaign flagged successfully!"}), 200
