@@ -130,3 +130,23 @@ Campaign Management - for the sponsors
 
 >> update database !!!
 
+
+
+
+# Sponsor Dashboard
+
+    Search by NICHE  {search_bar}
+____________________________________________________________________________________________________
+|                                                                                                   |
+|  CampaignName description  niche  budget start_date end_date goals  visibility  EDIT  DELETE      |
+|                                                                                                   |     
+_____________________________________________________________________________________________________
+
+Clickable Campaign
+also has feature to search for relvent Influencers
+
+default search for influence too!! and send ad_request !!
+
+
+
+(keep bare minimun)

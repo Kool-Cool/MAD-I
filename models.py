@@ -4,6 +4,7 @@ from datetime import datetime, date
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     __tablename__ = "users"
 
@@ -16,9 +17,18 @@ class User(db.Model):
 
     sponsors = db.relationship("Sponsor", backref="user", lazy=True)
     influencers = db.relationship("Influencer", backref="user", lazy=True)
-    user_flags = db.relationship("UserFlag", foreign_keys="UserFlag.flagged_by", backref="flagger", lazy=True)
-    flagged_by_user_flags = db.relationship("UserFlag", foreign_keys="UserFlag.user_id", backref="flagged_user", lazy=True)
-    campaign_flags = db.relationship("CampaignFlag", foreign_keys="CampaignFlag.flagged_by", backref="flagger", lazy=True)
+    user_flags = db.relationship(
+        "UserFlag", foreign_keys="UserFlag.flagged_by", backref="flagger", lazy=True
+    )
+    flagged_by_user_flags = db.relationship(
+        "UserFlag", foreign_keys="UserFlag.user_id", backref="flagged_user", lazy=True
+    )
+    campaign_flags = db.relationship(
+        "CampaignFlag",
+        foreign_keys="CampaignFlag.flagged_by",
+        backref="flagger",
+        lazy=True,
+    )
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -60,14 +70,16 @@ class Campaign(db.Model):
     __tablename__ = "campaigns"
 
     campaign_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sponsor_id = db.Column(db.Integer, db.ForeignKey("sponsors.sponsor_id"), nullable=False)
+    sponsor_id = db.Column(
+        db.Integer, db.ForeignKey("sponsors.sponsor_id"), nullable=False
+    )
     name = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.Text)
+    description = db.Column(db.Text,nullable=False)
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
-    budget = db.Column(db.Numeric(10, 2))
+    budget = db.Column(db.Numeric(10, 2),nullable=False)
     visibility = db.Column(db.Enum("public", "private"))
-    goals = db.Column(db.Text)
+    goals = db.Column(db.Text,nullable=False)
     niche = db.Column(db.String(255), nullable=False)  # New field for niche
 
     ad_requests = db.relationship("AdRequest", backref="campaign", lazy=True)
@@ -81,8 +93,12 @@ class AdRequest(db.Model):
     __tablename__ = "ad_requests"
 
     ad_request_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    campaign_id = db.Column(db.Integer, db.ForeignKey("campaigns.campaign_id"), nullable=False)
-    influencer_id = db.Column(db.Integer, db.ForeignKey("influencers.influencer_id"), nullable=False)
+    campaign_id = db.Column(
+        db.Integer, db.ForeignKey("campaigns.campaign_id"), nullable=False
+    )
+    influencer_id = db.Column(
+        db.Integer, db.ForeignKey("influencers.influencer_id"), nullable=False
+    )
     requirements = db.Column(db.Text)
     payment_amount = db.Column(db.Numeric(10, 2))
     status = db.Column(db.Enum("pending", "accepted", "rejected", "negotiation"))
@@ -98,8 +114,12 @@ class Negotiation(db.Model):
     __tablename__ = "negotiations"
 
     negotiation_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    ad_request_id = db.Column(db.Integer, db.ForeignKey("ad_requests.ad_request_id"), nullable=False)
-    influencer_id = db.Column(db.Integer, db.ForeignKey("influencers.influencer_id"), nullable=False)
+    ad_request_id = db.Column(
+        db.Integer, db.ForeignKey("ad_requests.ad_request_id"), nullable=False
+    )
+    influencer_id = db.Column(
+        db.Integer, db.ForeignKey("influencers.influencer_id"), nullable=False
+    )
     proposed_payment_amount = db.Column(db.Numeric(10, 2))
     negotiation_status = db.Column(db.Enum("pending", "accepted", "rejected"))
 
@@ -125,7 +145,9 @@ class CampaignFlag(db.Model):
 
     flag_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     flagged_by = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    campaign_id = db.Column(db.Integer, db.ForeignKey("campaigns.campaign_id"), nullable=False)
+    campaign_id = db.Column(
+        db.Integer, db.ForeignKey("campaigns.campaign_id"), nullable=False
+    )
     reason = db.Column(db.Text)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
 
@@ -191,7 +213,7 @@ def init_db(app):
                 budget=5000.00,
                 visibility="public",
                 goals="Increase brand awareness",
-                niche = "health"  # New field for niche
+                niche="health",  # New field for niche
             )
 
             db.session.add(campaign)

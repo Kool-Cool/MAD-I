@@ -48,7 +48,7 @@ def sponsor_login():
 
     if "user_name" in session and "role" in session:
         if session["role"] == "sponsor":
-            return redirect(url_for("sponsor.sponsor_dashboard"))
+            return redirect(url_for("sponsor.sponsor_managecampaign"))
         else:
             return redirect(url_for("home"))
 
@@ -65,15 +65,18 @@ def sponsor_login():
             session['user_id'] = user.user_id
 
             flash('Login successful!', 'success')
-            return redirect(url_for('sponsor.sponsor_dashboard'))
+            return redirect(url_for('sponsor.sponsor_managecampaign'))
         else:
             flash('Invalid email or password', 'danger')
 
     return render_template('sponsor_login.html')
 
 
-@sponsor.route('/dashboard')
-def sponsor_dashboard():
+@sponsor.route('/managecampaign')
+def sponsor_managecampaign():
     if 'user_name' in session and session['role'] == 'sponsor':
-        return render_template('sponsor_dashboard.html' ,data = session)
+
+        campaign_data = helper.get_campaign_by_userid(session['user_id'])
+
+        return render_template('sponsor_managecampaign.html' ,data = session, campaign_data=campaign_data)
     return redirect(url_for('sponsor.sponsor_login'))
