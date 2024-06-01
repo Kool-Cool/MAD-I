@@ -125,7 +125,11 @@ chore : done with Admin Functionalities !!
 
 
 Campaign Management - for the sponsors
-[1] CURD Campaigns
+[1] CURD Campaigns_ |
+                    |- read (DONE)
+                    |- Create (DONE)
+                    |- Update (TODO)
+                    |- Delete (TODO)
 [2] Categorize it into various niches.
 
 >> update database !!!
@@ -150,3 +154,4 @@ default search for influence too!! and send ad_request !!
 
 
 (keep bare minimun)
+
