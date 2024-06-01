@@ -45,7 +45,8 @@
         <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
         <div class="ml-auto">
             <button class="btn btn-danger btn-custom" onclick="location.href='/logout'">Log Out</button>
-            <button class="btn btn-primary" onclick="location.href='#'">Manage Ad Requests</button>
+            <button class="btn btn-primary" onclick="location.href='{{ url_for('sponsor.sponsor_manageadrequest') }}'">Manage Ad Requests</button>
+
             <button class="btn btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
 
         </div>

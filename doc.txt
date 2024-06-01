@@ -128,9 +128,9 @@ Campaign Management - for the sponsors
 [1] CURD Campaigns_ |
                     |- read (DONE)
                     |- Create (DONE)
-                    |- Update (TODO)
-                    |- Delete (TODO)
-[2] Categorize it into various niches.
+                    |- Update (DONE)
+                    |- Delete (DONE)
+[2] Categorize it into various niches [DONE].
 
 >> update database !!!
 
@@ -146,12 +146,13 @@ ________________________________________________________________________________
 |                                                                                                   |     
 _____________________________________________________________________________________________________
 
-Clickable Campaign
-also has feature to search for relvent Influencers
-
-default search for influence too!! and send ad_request !!
 
 
+Ad request Management - for the sponsors
+[1] CURD Ad request_|
+                    |- read 
+                    |- Create 
+                    |- Update 
+                    |- Delete 
 
-(keep bare minimun)
 

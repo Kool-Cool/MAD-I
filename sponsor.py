@@ -212,3 +212,17 @@ def delete_campaign(campaign_id):
         return render_template('sponsor_deletecampaign.html', campaign=campaign)
     
     return redirect(url_for('sponsor.sponsor_login'))
+
+
+
+@sponsor.route('/manageadrequest')
+def sponsor_manageadrequest():
+    if 'user_name' in session and session['role'] == 'sponsor':
+        return "HERE WE WILL MANAGE AD_REQUEST"
+
+        # campaign_data = helper.get_campaign_by_userid(session['user_id'])
+
+        # return render_template('sponsor_managecampaign.html' ,data = session, campaign_data=campaign_data)
+    
+
+    return redirect(url_for('sponsor.sponsor_login'))
