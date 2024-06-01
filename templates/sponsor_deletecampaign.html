@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete The Campaign</title>
+
+</head>
+
+<body>
+    <nav>
+        <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div >
+            <button  onclick="location.href='/logout'">Log Out</button>
+            <button  onclick="location.href='#'">Manage Ad Requests</button>
+            <button  onclick="location.href='#'">Search Influencers</button>
+
+        </div>
+    </nav>
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <h1>Delete Campaign</h1>
+    <p>Are you sure you want to delete the following campaign?</p>
+    <div>
+        <strong>Campaign Name:</strong> {{ campaign.name }} <br>
+        <strong>Campaign Description:</strong> {{ campaign.description }} <br>
+        <strong>Campaign Budget:</strong> {{ campaign.budget }} <br>
+        <strong>Campaign Goals:</strong> {{ campaign.goals }} <br>
+        <strong>Campaign Niche:</strong> {{ campaign.niche }} <br>
+        <strong>Campaign start_date:</strong> {{ campaign.start_date }} <br>
+        <strong>Campaign end_date:</strong> {{ campaign.end_date }} <br>
+        <strong>Campaign visibility:</strong> {{ campaign.visibility }}
+
+        
+    </div>
+    <form action="{{ url_for('sponsor.delete_campaign', campaign_id=campaign.campaign_id) }}" method="POST">
+        
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{{ url_for('sponsor.sponsor_managecampaign') }}">Cancel</a>
+    
+</body>
+</html>

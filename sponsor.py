@@ -138,7 +138,7 @@ def add_campaign():
 
 
             except Exception as e:
-                error_message = str(e)#.split('\n')[0]  # Get the first line of the error
+                error_message = str(e).split('\n')[0]  # Get the first line of the error
                 flash(f"Error: {error_message}", "error")
                 db.session.rollback()
 
@@ -175,7 +175,7 @@ def edit_campaign(campaign_id):
                 flash("Campaign updated successfully.", "success")
                 return redirect(url_for('sponsor.sponsor_managecampaign'))
             except Exception as e:
-                error_message = str(e)
+                error_message = str(e).split('\n')[0] 
                 flash(f"Error: {error_message}", "error")
                 db.session.rollback()
 
@@ -185,3 +185,30 @@ def edit_campaign(campaign_id):
 
 
 
+@sponsor.route("/managecampaign/deletecampaign/<int:campaign_id>", methods=['GET', 'POST'])
+def delete_campaign(campaign_id):
+    if 'user_name' in session and session['role'] == 'sponsor':
+        # return f"this is for Deleting the campaign data of id {campaign_id}"
+
+        # Retrieve the campaign by its ID
+        campaign = Campaign.query.get(campaign_id)
+
+        if not campaign:
+            flash("Campaign not found.", "error")
+            return redirect(url_for('sponsor.sponsor_managecampaign'))
+
+        if request.method == "POST":
+            try:
+                # Delete the campaign from the database
+                db.session.delete(campaign)
+                db.session.commit()
+                flash("Campaign deleted successfully.", "success")
+                return redirect(url_for('sponsor.sponsor_managecampaign'))
+            except Exception as e:
+                error_message = str(e)
+                flash(f"Error: {error_message}", "error")
+                db.session.rollback()
+
+        return render_template('sponsor_deletecampaign.html', campaign=campaign)
+    
+    return redirect(url_for('sponsor.sponsor_login'))
