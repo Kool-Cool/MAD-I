@@ -1,55 +1,73 @@
+<!-- templates\sponsor_deletecampaign.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete The Campaign</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .navbar-custom {
+            margin-bottom: 20px;
+        }
+        .campaign-details {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-
 <body>
-    <nav>
-        <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
-        <div >
-            <button  onclick="location.href='/logout'">Log Out</button>
-            <button  onclick="location.href='#'">Manage Ad Requests</button>
-            <button  onclick="location.href='#'">Search Influencers</button>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+        <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div class="ml-auto">
+            <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+            <button class="btn btn-primary" onclick="location.href='#'">Manage Ad Requests</button>
+            <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
         </div>
     </nav>
 
-    <div id="flash">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="alert alert-danger">
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+    <div class="container">
+        <div id="flash">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
         </div>
-        {% endif %}
-        {% endwith %}
+        
+        <h1>Delete the Campaign</h1>
+        <p>Are you sure you want to delete the following campaign?</p>
+        
+        <div class="campaign-details">
+            <strong>Campaign Name:</strong> {{ campaign.name }} <br>
+            <strong>Campaign Description:</strong> {{ campaign.description }} <br>
+            <strong>Campaign Budget:</strong> {{ campaign.budget }} <br>
+            <strong>Campaign Goals:</strong> {{ campaign.goals }} <br>
+            <strong>Campaign Niche:</strong> {{ campaign.niche }} <br>
+            <strong>Campaign Start Date:</strong> {{ campaign.start_date }} <br>
+            <strong>Campaign End Date:</strong> {{ campaign.end_date }} <br>
+            <strong>Campaign Visibility:</strong> {{ campaign.visibility }}
+        </div>
+        
+        <form action="{{ url_for('sponsor.delete_campaign', campaign_id=campaign.campaign_id) }}" method="POST">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="{{ url_for('sponsor.sponsor_managecampaign') }}" class="btn btn-secondary">Cancel</a>
+        </form>
     </div>
-    <h1>Delete Campaign</h1>
-    <p>Are you sure you want to delete the following campaign?</p>
-    <div>
-        <strong>Campaign Name:</strong> {{ campaign.name }} <br>
-        <strong>Campaign Description:</strong> {{ campaign.description }} <br>
-        <strong>Campaign Budget:</strong> {{ campaign.budget }} <br>
-        <strong>Campaign Goals:</strong> {{ campaign.goals }} <br>
-        <strong>Campaign Niche:</strong> {{ campaign.niche }} <br>
-        <strong>Campaign start_date:</strong> {{ campaign.start_date }} <br>
-        <strong>Campaign end_date:</strong> {{ campaign.end_date }} <br>
-        <strong>Campaign visibility:</strong> {{ campaign.visibility }}
 
-        
-    </div>
-    <form action="{{ url_for('sponsor.delete_campaign', campaign_id=campaign.campaign_id) }}" method="POST">
-        
-        <button type="submit">Confirm Delete</button>
-    </form>
-    <a href="{{ url_for('sponsor.sponsor_managecampaign') }}">Cancel</a>
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
