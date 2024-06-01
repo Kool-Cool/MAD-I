@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update The Campaign</title>
+
+</head>
+
+<body>
+    <nav>
+        <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div >
+            <button  onclick="location.href='/logout'">Log Out</button>
+            <button  onclick="location.href='#'">Manage Ad Requests</button>
+            <button  onclick="location.href='#'">Search Influencers</button>
+
+        </div>
+    </nav>
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div>
+        <h2>
+            Update the Campaign
+        </h2>
+        <form action="/sponsor/managecampaign/editcampaign/{{ campaign['''campaign_id'''] }}" method='POST'>
+            
+                <label for="campaignname">Campaign Name:</label>
+                <input type="text" class="form-control" id="campaignname" name="campaignname" value="{{ campaign.name }}" required>
+
+                <br>
+
+                <label for="campaigndescription">Campaign Description:</label>
+                <textarea  class="form-control" id="campaigndescription" name="campaigndescription"  required>{{ campaign.description }}</textarea>
+
+                <br>
+
+                <label for="campaigngoals">Campaign Goals:</label>
+                <textarea class="form-control" id="campaigngoals" name="campaigngoals" required>{{ campaign.goals }}</textarea>
+
+                <br>
+
+                <label for="campaignniche">Campaign Niche:</label>
+                <input type="text" class="form-control" id="campaignniche" name="campaignniche" value="{{ campaign.niche }}" required>
+
+                <br>
+
+                <label for="campaignbudget">Campaign Budget:</label>
+                <input type="number" class="form-control" id="campaignbudget" name="campaignbudget" value="{{ campaign.budget }}" required>
+
+                <br>
+
+      
+                
+                <label for="campaignvisibility">Campaign Visibility:</label>
+                <input type="radio" id="public" name="campaignvisibility" value="public" {{ 'checked' if campaign.visibility == 'public' else '' }}>
+                <label for="public">Public</label>
+                <input type="radio" id="private" name="campaignvisibility" value="private" {{ 'checked' if campaign.visibility == 'private' else '' }}>
+                <label for="private">Private</label>
+
+
+                <br>
+                <label for="campaignstartdate">Campaign Start Date:</label>
+                <input type="date" name="campaignstartdate" value="{{ campaign.start_date }}" required>
+                <br>
+                <label for="campaignenddate">Campaign End Date:</label>
+                <input type="date" name="campaignenddate" value="{{ campaign.end_date }}" required>
+                
+
+                
+                <br>
+                <button type="submit">Submit</button>
+
+
+        </form>
+    </div>
+
+
+
+</body>
+</html>

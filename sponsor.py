@@ -147,3 +147,41 @@ def add_campaign():
     return redirect(url_for('sponsor.sponsor_login'))
 
 
+
+
+@sponsor.route("/managecampaign/editcampaign/<int:campaign_id>", methods=['GET', 'POST'])
+def edit_campaign(campaign_id):
+    if 'user_name' in session and session['role'] == 'sponsor':
+        # return f"this is for editing the campaign data of id {campaign_id}"
+        campaign = Campaign.query.get(campaign_id)
+
+        if not campaign:
+            flash("Campaign not found.", "error")
+            return redirect(url_for('sponsor.sponsor_managecampaign'))
+
+        if request.method == "POST":
+            # Update campaign data based on user input
+            campaign.budget = request.form.get("campaignbudget")
+            campaign.description = request.form.get("campaigndescription")
+            campaign.end_date = datetime.datetime.strptime(request.form.get("campaignenddate"), '%Y-%m-%d').date()
+            campaign.goals = request.form.get("campaigngoals")
+            campaign.name = request.form.get("campaignname")
+            campaign.niche = request.form.get("campaignniche")
+            campaign.start_date = datetime.datetime.strptime(request.form.get("campaignstartdate"), '%Y-%m-%d').date()
+            campaign.visibility = request.form.get("campaignvisibility")
+
+            try:
+                db.session.commit()
+                flash("Campaign updated successfully.", "success")
+                return redirect(url_for('sponsor.sponsor_managecampaign'))
+            except Exception as e:
+                error_message = str(e)
+                flash(f"Error: {error_message}", "error")
+                db.session.rollback()
+
+        return render_template('sponsor_editcampaign.html', campaign=campaign)
+    
+    return redirect(url_for('sponsor.sponsor_login'))
+
+
+
