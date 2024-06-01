@@ -5,6 +5,7 @@ from flask import Blueprint, request, render_template, redirect, url_for
 from models import db , User,Sponsor ,Campaign ,AdRequest ,Influencer ,UserFlag , CampaignFlag
 from flask import session , flash ,jsonify
 import helper
+import datetime
 
 sponsor = Blueprint('sponsor', __name__)
 
@@ -79,4 +80,70 @@ def sponsor_managecampaign():
         campaign_data = helper.get_campaign_by_userid(session['user_id'])
 
         return render_template('sponsor_managecampaign.html' ,data = session, campaign_data=campaign_data)
+    
+
     return redirect(url_for('sponsor.sponsor_login'))
+
+@sponsor.route("/managecampaign/addcampaign" , methods=['GET', 'POST'])
+def add_campaign():
+    if 'user_name' in session and session['role'] == 'sponsor':
+
+        if request.method == "POST":
+            user_id = session['user_id']
+            sponsor_data = Sponsor.query.filter_by(user_id=user_id).first()
+            sponsor_id = sponsor_data.sponsor_id
+
+            # print("user_id" , user_id)
+            # print("sponsor_iddd ," , sponsor_id)
+
+            new_campaign_data = {
+                "budget": request.form.get("campaignbudget"),
+                "description" : request.form.get("campaigndescription"),
+                "end_date" : request.form.get("campaignenddate"),
+                "goals" : request.form.get("campaigngoals"),
+                "name" : request.form.get("campaignname"),
+                "niche" : request.form.get("campaignniche"),
+                "sponsor_id" : sponsor_id ,
+                "start_date" : request.form.get("campaignstartdate"),
+                "visibility" : request.form.get("campaignvisibility")
+            }
+            # print(new_campaign_data)
+
+            # print()
+            # print(new_campaign_data['visibility'])
+
+            # print("old Type" , type(new_campaign_data['start_date']))
+
+            new_campaign = Campaign(
+                sponsor_id = new_campaign_data['sponsor_id'],
+                name = new_campaign_data['name'],
+                description = new_campaign_data['description'],
+                # start_date': '2024-06-01' YYYY-MM-DD
+                start_date = datetime.datetime.strptime(new_campaign_data['start_date'], '%Y-%m-%d').date() ,
+                end_date = datetime.datetime.strptime(new_campaign_data['end_date'], '%Y-%m-%d').date(),
+                budget = new_campaign_data['budget'],
+                visibility = new_campaign_data['visibility'],
+                goals = new_campaign_data['goals'],
+                niche =new_campaign_data['niche']
+            )
+
+            # print(new_campaign_data)
+
+            try:
+                # print(new_campaign)
+                db.session.add(new_campaign)  
+                db.session.commit()
+                flash("Added New Campaign Successfully" , "success")
+                return redirect(url_for('sponsor.sponsor_managecampaign'))
+
+
+            except Exception as e:
+                error_message = str(e)#.split('\n')[0]  # Get the first line of the error
+                flash(f"Error: {error_message}", "error")
+                db.session.rollback()
+
+            
+        return render_template('sponsor_addcampaign.html')
+    return redirect(url_for('sponsor.sponsor_login'))
+
+

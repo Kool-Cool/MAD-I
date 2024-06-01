@@ -42,16 +42,17 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Sponsor Manage Campaign</a>
+        <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
         <div class="ml-auto">
             <button class="btn btn-danger btn-custom" onclick="location.href='/logout'">Log Out</button>
-            <button class="btn btn-primary-custom" onclick="location.href='/adrequests/manage'">Manage Ad Requests</button>
+            <button class="btn btn-primary-custom" onclick="location.href='#'">Manage Ad Requests</button>
             <button class="btn btn-primary-custom" onclick="location.href='#'">Search Influencers</button>
 
         </div>
     </nav>
 
     <div class="container">
+        <!-- {{ data }} -->
         <h1>Welcome, {{ data['user_name'] }}</h1>
         <p>Manage your campaigns below:</p>
 
@@ -69,11 +70,11 @@
             {% endwith %}
         </div>
 
-        <div class="search-bar-container">
+        <!-- <div class="search-bar-container">
             <input type="text" class="form-control" id="searchBar" placeholder="Search by Niche">
-        </div>
+        </div> -->
 
-        <button class="btn btn-success mb-3" onclick="location.href='/campaigns/new'">+ Add New Campaign</button>
+        <button class="btn btn-success mb-3" onclick="location.href='/sponsor/managecampaign/addcampaign'">+ Add New Campaign</button>
 
         <table class="table table-striped table-bordered campaign-list ">
             <thead class="thead-dark">

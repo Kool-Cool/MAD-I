@@ -1,7 +1,8 @@
 # models.py
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
-
+from sqlalchemy.orm import validates
+from flask import flash
 db = SQLAlchemy()
 
 
@@ -74,19 +75,29 @@ class Campaign(db.Model):
         db.Integer, db.ForeignKey("sponsors.sponsor_id"), nullable=False
     )
     name = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.Text,nullable=False)
+    description = db.Column(db.Text, nullable=False)
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
-    budget = db.Column(db.Numeric(10, 2),nullable=False)
+    budget = db.Column(db.Numeric(10, 2), nullable=False)
     visibility = db.Column(db.Enum("public", "private"))
-    goals = db.Column(db.Text,nullable=False)
-    niche = db.Column(db.String(255), nullable=False)  # New field for niche
+    goals = db.Column(db.Text, nullable=False)
+    niche = db.Column(db.String(255), nullable=False)
 
     ad_requests = db.relationship("AdRequest", backref="campaign", lazy=True)
     campaign_flags = db.relationship("CampaignFlag", backref="campaign", lazy=True)
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @validates("end_date")
+    def validate_end_date(self, key, end_date):
+        # print(end_date)
+        # print(type(end_date))
+        if self.start_date and end_date:
+            if end_date < self.start_date:
+                # raise ValueError("End date must be greater than start date")
+                flash("End date must be greater than start date", "error")
+        return end_date
 
 
 class AdRequest(db.Model):
