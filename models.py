@@ -79,7 +79,7 @@ class Campaign(db.Model):
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
     budget = db.Column(db.Numeric(10, 2), nullable=False)
-    visibility = db.Column(db.Enum("public", "private"))
+    visibility = db.Column(db.Enum("public", "private"),default="public")
     goals = db.Column(db.Text, nullable=False)
     niche = db.Column(db.String(255), nullable=False)
 
@@ -112,7 +112,7 @@ class AdRequest(db.Model):
     )
     requirements = db.Column(db.Text)
     payment_amount = db.Column(db.Numeric(10, 2))
-    status = db.Column(db.Enum("pending", "accepted", "rejected", "negotiation"))
+    status = db.Column(db.Enum("pending", "accepted", "rejected", "negotiation") , default = "pending")
     messages = db.Column(db.Text)
 
     negotiations = db.relationship("Negotiation", backref="ad_request", lazy=True)
@@ -132,7 +132,7 @@ class Negotiation(db.Model):
         db.Integer, db.ForeignKey("influencers.influencer_id"), nullable=False
     )
     proposed_payment_amount = db.Column(db.Numeric(10, 2))
-    negotiation_status = db.Column(db.Enum("pending", "accepted", "rejected"))
+    negotiation_status = db.Column(db.Enum("pending", "accepted", "rejected") ,default = "pending")
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
