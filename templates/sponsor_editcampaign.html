@@ -1,6 +1,7 @@
 <!-- templates\sponsor_editcampaign.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,23 +11,28 @@
         body {
             background-color: #f8f9fa;
         }
+
         .container {
             margin-top: 50px;
         }
+
         .navbar-custom {
             margin-bottom: 20px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
         <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
         <div class="ml-auto">
             <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
-            <button class="btn btn-primary" onclick="location.href='{{ url_for('sponsor.sponsor_manageadrequest') }}'">Manage Ad Requests</button>
+            <button class="btn btn-primary"
+                onclick="location.href='{{ url_for('sponsor.sponsor_manageadrequest') }}'">Manage Ad Requests</button>
 
             <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
         </div>
@@ -51,49 +57,58 @@
         <form action="/sponsor/managecampaign/editcampaign/{{ campaign['campaign_id'] }}" method='POST'>
             <div class="form-group">
                 <label for="campaignname">Campaign Name:</label>
-                <input type="text" class="form-control" id="campaignname" name="campaignname" value="{{ campaign.name }}" required>
+                <input type="text" class="form-control" id="campaignname" name="campaignname"
+                    value="{{ campaign.name }}" required>
             </div>
 
             <div class="form-group">
                 <label for="campaigndescription">Campaign Description:</label>
-                <textarea class="form-control" id="campaigndescription" name="campaigndescription" required>{{ campaign.description }}</textarea>
+                <textarea class="form-control" id="campaigndescription" name="campaigndescription"
+                    required>{{ campaign.description }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="campaigngoals">Campaign Goals:</label>
-                <textarea class="form-control" id="campaigngoals" name="campaigngoals" required>{{ campaign.goals }}</textarea>
+                <textarea class="form-control" id="campaigngoals" name="campaigngoals"
+                    required>{{ campaign.goals }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="campaignniche">Campaign Niche:</label>
-                <input type="text" class="form-control" id="campaignniche" name="campaignniche" value="{{ campaign.niche }}" required>
+                <input type="text" class="form-control" id="campaignniche" name="campaignniche"
+                    value="{{ campaign.niche }}" required>
             </div>
 
             <div class="form-group">
                 <label for="campaignbudget">Campaign Budget:</label>
-                <input type="number" class="form-control" id="campaignbudget" name="campaignbudget" value="{{ campaign.budget }}" required>
+                <input type="number" step="1" min="0" class="form-control" id="campaignbudget" name="campaignbudget"
+                    value="{{ campaign.budget }}" required>
             </div>
 
             <div class="form-group">
                 <label for="campaignvisibility">Campaign Visibility:</label><br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="public" name="campaignvisibility" value="public" {{ 'checked' if campaign.visibility == 'public' else '' }}>
+                    <input class="form-check-input" type="radio" id="public" name="campaignvisibility" value="public"
+                        {{ 'checked' if campaign.visibility=='public' else '' }}>
                     <label class="form-check-label" for="public">Public</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="private" name="campaignvisibility" value="private" {{ 'checked' if campaign.visibility == 'private' else '' }}>
+                    <input class="form-check-input" type="radio" id="private" name="campaignvisibility" value="private"
+                        {{ 'checked' if campaign.visibility=='private' else '' }}>
                     <label class="form-check-label" for="private">Private</label>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="campaignstartdate">Campaign Start Date:</label>
-                <input type="date" class="form-control" id="campaignstartdate" name="campaignstartdate" value="{{ campaign.start_date }}" required>
+                <input type="date" class="form-control" id="campaignstartdate" name="campaignstartdate"
+                    value="{{ campaign.start_date }}" required>
             </div>
 
             <div class="form-group">
                 <label for="campaignenddate">Campaign End Date:</label>
-                <input type="date" class="form-control" id="campaignenddate" name="campaignenddate" value="{{ campaign.end_date }}" required>
+                <input type="date" class="form-control" id="campaignenddate" name="campaignenddate"
+                    value="{{ campaign.end_date }}" required>
             </div>
 
             <button type="submit" class="btn btn-success">Submit</button>
@@ -104,4 +119,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>

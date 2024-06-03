@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Manage AdResquest</title>
+
+</head>
+
+
+<body>
+
+  <nav >
+    <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+    <div >
+        <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+        <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage Campaigns</button>
+        <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
+    </div>
+</nav>
+
+    
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>    
+    
+    <div >
+        <h1>Ad New AdRequest !</h1>
+
+    </div>
+
+    <div>
+
+        <form action="{{ url_for('sponsor.add_adrequest') }}" method="POST">
+            <label for="campaignid">Campaign ID:</label>
+            <input type="number" step="1" min="0" id="campaignid" name="campaignid" required>
+            <br>
+          
+            <label for="influencerid">Influencer ID:</label>
+            <input type="number" step="1" min="0" id="influencerid" name="influencerid" required>
+            <br>
+          
+            <label for="messages">Message:</label>
+            <textarea id="messages" name="messages" required></textarea>
+            <br>
+          
+            <label for="payment_amount">Payment Amount:</label>
+            <input type="number" step="1" min="0" id="payment_amount" name="payment_amount" required>
+            <br>
+          
+            <label for="requirements">Requirements:</label>
+            <textarea id="requirements" name="requirements" required></textarea>
+            <br>
+          
+            <label for="status">Status:</label>
+            <input type="radio" id="pending" name="status" value="pending" required>
+            <label for="pending">Pending</label>
+          
+            <input type="radio" id="accepted" name="status" value="accepted">
+            <label for="accepted">Accepted</label>
+          
+            <input type="radio" id="rejected" name="status" value="rejected">
+            <label for="rejected">Rejected</label>
+          
+            <input type="radio" id="negotiation" name="status" value="negotiation">
+            <label for="negotiation">Negotiation</label>
+          
+            <br>
+          
+            <button type="submit">Submit</button>
+          </form>
+          
+
+    </div>
+
+
+    
+
+
+
+

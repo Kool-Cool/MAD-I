@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsor Dashboard</title>
+    <title>Sponsor Manage AdResquest</title>
 
 </head>
 <body>
@@ -23,7 +23,7 @@
     <div class="container">
         <h1>Welcome, {{ session['user_name'] }}</h1>
         <p>This is Manage Add Requests Here !!.</p>
-        <button>Click to Manage Campaigns HERE </button>
+        
     </div>
 
     <div id="flash">
@@ -44,7 +44,7 @@
     </div>
 
 
-    <button  > + Add AdResquest ! </button>
+    <button onclick="location.href='/sponsor/manageadrequest/add_adrequest'" > + Add AdResquest ! </button>
 
     <div>
       {% if adrequest_data %}

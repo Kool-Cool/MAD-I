@@ -68,6 +68,7 @@ def admin_dashboard():
         if session["role"] == "admin":
 
             return render_template("admin_dashboard.html" , info_data=session)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 @admin.route('/dashboard/data', methods=['GET'])
@@ -115,6 +116,7 @@ def all_users():
             data["influencer"] = [user.to_dict() for user in User.query.filter_by(role="influencer").all()]
 
             return render_template("admin_allusers.html", data=data)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 
@@ -125,6 +127,7 @@ def all_sponsors():
         if session["role"] == "admin":
             sponsors = Sponsor.query.all()
             return render_template("admin_allsponsors.html", sponsors=sponsors)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 
@@ -135,6 +138,7 @@ def all_influencers():
         if session["role"] == "admin":
             influencers = Influencer.query.all()
             return render_template("admin_allinfluencers.html", influencers=influencers)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 
@@ -145,6 +149,7 @@ def all_user_flags():
         if session["role"] == "admin":
             flags = UserFlag.query.all()
             return render_template("admin_alluserflags.html", flags=flags)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 
@@ -155,6 +160,7 @@ def all_campaign_flags():
         if session["role"] == "admin":
             flags = CampaignFlag.query.all()
             return render_template("admin_allcampaignflags.html", flags=flags)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 @admin.route('/allcampaigns')
@@ -163,6 +169,7 @@ def all_campaigns():
         if session["role"] == "admin":
             campaigns = Campaign.query.all()
             return render_template("admin_allcampaigns.html", campaigns=campaigns)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 @admin.route('/alladrequests')
@@ -171,6 +178,7 @@ def all_adrequests():
         if session["role"] == "admin":
             ad_requests = AdRequest.query.all()
             return render_template("admin_alladrequests.html", ad_requests=ad_requests)
+    flash("Please Login !","faliled")
     return redirect(url_for("home"))
 
 
