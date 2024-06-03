@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Dashboard</title>
+
+</head>
+<body>
+
+  <nav >
+    <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+    <div >
+        <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+        <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage Campaigns</button>
+        <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
+    </div>
+</nav>
+
+    
+
+
+    <div class="container">
+        <h1>Welcome, {{ session['user_name'] }}</h1>
+        <p>This is Manage Add Requests Here !!.</p>
+        <button>Click to Manage Campaigns HERE </button>
+    </div>
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div>
+
+    </div>
+
+
+    <button  > + Add AdResquest ! </button>
+
+    <div>
+      {% if adrequest_data %}
+        <table class="campaign-list">
+          <tr>
+            <th>Campaign Id</th>
+            <th>Influencers Id</th>
+            <th>Requirements</th>
+            <th>Payment Amount</th>
+            <th>Status</th>
+            <th>Message</th>
+
+          </tr>
+
+          {% for data in adrequest_data %}
+          
+          <tr>
+            <td> {{ data['campaign_id']  }}</td>
+            <td> {{ data["influencer_id"]  }}</td>
+            <td> {{ data["requirements"]  }}</td>
+            <td> {{ data["payment_amount"]  }}</td>
+            <td> {{ data["status"]  }} </td>
+            <td> {{ data["messages"]  }} </td>
+
+            <td class="action-buttons">
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
+        <!-- {{ adrequest_data }} -->
+      {% else %}
+      <h3 style="color: red; font-weight: bold;">No Campaigns to show!!</h3>
+
+      {% endif %}
+    </div>
+    
+
+
+
+    
+</body>
+</html>

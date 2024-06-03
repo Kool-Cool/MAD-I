@@ -68,7 +68,7 @@ def sponsor_login():
             flash('Login successful!', 'success')
             return redirect(url_for('sponsor.sponsor_managecampaign'))
         else:
-            flash('Invalid email or password', 'danger')
+            flash('Invalid User name or password', 'danger')
 
     return render_template('sponsor_login.html')
 
@@ -218,11 +218,9 @@ def delete_campaign(campaign_id):
 @sponsor.route('/manageadrequest')
 def sponsor_manageadrequest():
     if 'user_name' in session and session['role'] == 'sponsor':
-        return "HERE WE WILL MANAGE AD_REQUEST"
+        adrequest_data = helper.get_adrequest_by_userid(session['user_id'])
+        # print(adrequest_data)
 
-        # campaign_data = helper.get_campaign_by_userid(session['user_id'])
-
-        # return render_template('sponsor_managecampaign.html' ,data = session, campaign_data=campaign_data)
-    
+        return render_template("sponsor_manage_adrequests.html" , adrequest_data = adrequest_data)
 
     return redirect(url_for('sponsor.sponsor_login'))
