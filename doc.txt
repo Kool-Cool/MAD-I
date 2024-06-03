@@ -150,9 +150,9 @@ ________________________________________________________________________________
 
 Ad request Management - for the sponsors
 [1] CURD Ad request_|
-                    |- read 
-                    |- Create 
-                    |- Update 
-                    |- Delete 
+                    |- read (DONE)
+                    |- Create  (DONE)
+                    |- Update  (TODO)
+                    |- Delete  (TODO)
 
 
