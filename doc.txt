@@ -159,7 +159,7 @@ Ad request Management - for the sponsors
 
 
 #TODO
->> Influencers login and Registration 
+>> Influencers login and Registration (DONE)
 >> Influencers Dashboard _|- Show all `PUBLIC` ad_request
                           |- Search 
                           |- able to negociate

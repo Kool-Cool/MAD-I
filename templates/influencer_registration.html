@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .registration-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .registration-container .form-group {
+            margin-bottom: 15px;
+        }
+
+        .registration-container .form-check {
+            margin-top: 15px;
+        }
+
+        .registration-container .btn-primary {
+            width: 100%;
+        }
+
+        .alert-danger {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h1>Influencer Registration</h1>
+
+        <div id="flash">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        
+        <form action="{{ url_for('influencer.registration') }}" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="influencer_name">Influencer Name:</label>
+                <input type="text" class="form-control" id="influencer_name" name="influencer_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" class="form-control" id="category" name="category" required>
+            </div>
+            <div class="form-group">
+                <label for="niche">Niche:</label>
+                <input type="text" class="form-control" id="niche" name="niche" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reach">Reach:</label>
+                <input type="number" class="form-control" id="reach" name="reach" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</body>
+</html>
