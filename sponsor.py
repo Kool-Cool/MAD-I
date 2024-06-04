@@ -9,8 +9,7 @@ from models import (
     Campaign,
     AdRequest,
     Influencer,
-    UserFlag,
-    CampaignFlag,
+
 )
 from flask import session, flash, jsonify
 import helper

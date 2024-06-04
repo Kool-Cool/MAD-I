@@ -156,3 +156,22 @@ Ad request Management - for the sponsors
                     |- Delete  (DONE)
 
 
+
+
+#TODO
+>> Influencers login and Registration 
+>> Influencers Dashboard _|- Show all `PUBLIC` ad_request
+                          |- Search 
+                          |- able to negociate
+
+
+>> Search for influencers, public campaigns
+
+The sponsors should be able to search 
+for relevant influencers based on their niche, 
+reach, followers etc.
+
+The Influencers should be able to search for 
+public campaigns based on their niche, 
+relevance etc.
+
