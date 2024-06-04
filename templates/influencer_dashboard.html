@@ -1,3 +1,54 @@
-THIs is Dashboard for influencer !
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Dashboard</title>
+</head>
+<body>
 
-<button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+<label for="search_camp">Search Campaign</label>
+<input type="text" placeholder="Search campaign with keywords" id="search_camp" name="search_camp"> <br>
+<button onclick="location.href='/logout'">Log Out</button> <br>
+<p>This is the dashboard for influencers!</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Campaign ID</th>
+            <th>Campaign Name</th>
+            <th>Description</th>
+            <th>Goals</th>
+            <th>Niche</th>
+            <th>Sponsor ID</th>
+            <th>End Date</th>
+            <th>Start Date</th>
+            <th>Negotiated Amount</th>
+            <th>Negotiation Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4</td>
+            <td>Name of Camp</td>
+            <td>DESCRIO ASD</td>
+            <td>5 Vid</td>
+            <td>Travel</td>
+            <td>1</td>
+            <td>2024/06/04</td>
+            <td>yyy/mm/dd</td>
+            <td>0</td>
+            <td>NONE</td>
+            <td>
+                <button>Accept</button>
+                <button>Reject</button>
+                <button>Negotiate</button>
+            </td>
+        </tr>
+        <!-- Repeat for other campaigns -->
+    </tbody>
+</table>
+
+</body>
+</html>
