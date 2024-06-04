@@ -1,92 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsor Manage AdResquest</title>
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsor Manage AdRequest</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
 
-  <nav >
-    <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
-    <div >
-        <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
-        <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage Campaigns</button>
-        <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+    <div class="ml-auto">
+      <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+      <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage
+        Campaigns</button>
+      <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
     </div>
-</nav>
+  </nav>
 
-    
+  <div class="container mt-4">
+    <h1>Welcome, {{ session['user_name'] }}</h1>
+    <p>This is where you can manage Add Requests.</p>
+  </div>
 
-
-    <div class="container">
-        <h1>Welcome, {{ session['user_name'] }}</h1>
-        <p>This is Manage Add Requests Here !!.</p>
-        
+  <div id="flash" class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
     </div>
+    {% endif %}
+    {% endwith %}
+  </div>
 
-    <div id="flash">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="alert alert-danger">
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-        {% endwith %}
-    </div>
-    <div>
+  <div class="container mt-4">
+    <button class="btn btn-success" onclick="location.href='/sponsor/manageadrequest/add_adrequest'"> + Add AdRequest
+    </button>
+    {% if adrequest_data %}
+    <table class="table table-bordered mt-4 ">
+      <thead class="thead-dark">
+        <tr>
+          <th>Campaign Id</th>
+          <th>Influencers Id</th>
+          <th>Requirements</th>
+          <th>Payment Amount</th>
+          <th>Status</th>
+          <th>Message</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in adrequest_data %}
+        <tr>
+          <td>{{ data['campaign_id'] }}</td>
+          <td>{{ data["influencer_id"] }}</td>
+          <td>{{ data["requirements"] }}</td>
+          <td>{{ data["payment_amount"] }}</td>
+          <td>{{ data["status"] }}</td>
+          <td>{{ data["messages"] }}</td>
+          <td>
+            <button class="btn btn-info"
+              onclick="location.href='/sponsor/manageadrequest/edit_adrequest/{{ data["ad_request_id"] }}'">Edit</button>
+            <button class="btn btn-danger"
+              onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{ data["ad_request_id"] }}'">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <h3 class="text-danger font-weight-bold mt-4">No Campaigns to show!</h3>
+    {% endif %}
+  </div>
 
-    </div>
-
-
-    <button onclick="location.href='/sponsor/manageadrequest/add_adrequest'" > + Add AdResquest ! </button>
-
-    <div>
-      {% if adrequest_data %}
-        <table class="campaign-list">
-          <tr>
-            <th>Campaign Id</th>
-            <th>Influencers Id</th>
-            <th>Requirements</th>
-            <th>Payment Amount</th>
-            <th>Status</th>
-            <th>Message</th>
-
-          </tr>
-
-          {% for data in adrequest_data %}
-          
-          <tr>
-            <td> {{ data['campaign_id']  }}</td>
-            <td> {{ data["influencer_id"]  }}</td>
-            <td> {{ data["requirements"]  }}</td>
-            <td> {{ data["payment_amount"]  }}</td>
-            <td> {{ data["status"]  }} </td>
-            <td> {{ data["messages"]  }} </td>
-
-            <td class="action-buttons">
-              <button onclick="location.href='/sponsor/manageadrequest/edit_adrequest/{{ data["ad_request_id"] }}'">Edit</button>
-              <button onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{data["ad_request_id"]}}'">Delete</button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-
-        <!-- {{ adrequest_data }} -->
-      {% else %}
-      <h3 style="color: red; font-weight: bold;">No Campaigns to show!!</h3>
-
-      {% endif %}
-    </div>
-    
-
-
-
-    
+  <!-- Include Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

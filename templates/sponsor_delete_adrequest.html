@@ -1,69 +1,59 @@
-{{ad_data.to_dict()}}
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsor Delete AdResquest</title>
-
+    <title>Sponsor Delete AdRequest</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-
-
-
 <body>
 
-  <nav >
-    <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
-    <div >
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+    <div class="ml-auto">
         <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
         <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage Campaigns</button>
         <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
     </div>
 </nav>
 
-    
-
-    <div id="flash">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="alert alert-danger">
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-        {% endwith %}
-    </div>    
-    
-    <div >
-        <h1>Delete AdRequest !</h1>
-
-        <p>Are you sure you want to delete the following Ad Request?</p>
-
+<div id="flash" class="container mt-4">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
     </div>
+    {% endif %}
+    {% endwith %}
+</div>
 
-    <div>
+<div class="container mt-4">
+    <h1>Delete AdRequest!</h1>
+    <p>Are you sure you want to delete the following Ad Request?</p>
+</div>
 
-        <strong>Campaign ID:</strong> {{ ad_data.campaign_id }} <br>
-        <strong>Influencer ID:</strong> {{ ad_data.influencer_id }} <br>
-        <strong>Requirements:</strong> {{ ad_data.requirements }} <br>
-        <strong>Payment Amount:</strong> {{ ad_data.payment_amount }} <br>
-        <strong>Status:</strong> {{ ad_data.status }} <br>
-        <strong>Message:</strong> {{ ad_data.messages }} <br>
+<div class="container">
+    <strong>Campaign ID:</strong> {{ ad_data.campaign_id }} <br>
+    <strong>Influencer ID:</strong> {{ ad_data.influencer_id }} <br>
+    <strong>Requirements:</strong> {{ ad_data.requirements }} <br>
+    <strong>Payment Amount:</strong> {{ ad_data.payment_amount }} <br>
+    <strong>Status:</strong> {{ ad_data.status }} <br>
+    <strong>Message:</strong> {{ ad_data.messages }} <br>
 
+    <form action="{{ url_for('sponsor.deleted_adrequest', adrequest_id=ad_data.ad_request_id) }}" method="POST">
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{{ url_for('sponsor.sponsor_manageadrequest') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 
-        <form action="{{ url_for('sponsor.deleted_adrequest', adrequest_id=ad_data.ad_request_id) }}" method="POST">
-            <button type="submit">Confirm Delete</button>
-            <a href="{{ url_for('sponsor.sponsor_manageadrequest') }}" >Cancel</a>
-        </form>
-
-
-
-
-
-    </div>
-
-
+<!-- Include Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+</html>
