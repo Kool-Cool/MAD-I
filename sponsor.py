@@ -294,3 +294,57 @@ def add_adrequest():
 
     flash("Please Login !","faliled")
     return redirect(url_for("sponsor.sponsor_login"))
+
+
+@sponsor.route(
+    "/manageadrequest/edit_adrequest/<int:adrequest_id>", methods=["GET", "POST"]
+)
+def edit_adrequest(adrequest_id):
+    if "user_name" in session and session["role"] == "sponsor":
+        ad_data = AdRequest.query.get(adrequest_id)
+        
+
+        if not ad_data :
+            flash("Ad Request not found.", "error")
+            return redirect(url_for("sponsor.sponsor_manageadrequest"))
+        
+        if request.method == "POST":
+            campaign_exists = Campaign.query.filter_by(campaign_id=request.form.get("campaignid")).first()
+            influencer_exists = Influencer.query.filter_by(influencer_id=request.form.get("influencerid")).first()
+            # print(campaign_exists)
+            # print()
+            # print(influencer_exists)
+            if not campaign_exists:
+                flash("Error: Campaign ID does not exist.", "error")
+                return redirect(url_for("sponsor.edit_adrequest" , adrequest_id=ad_data.ad_request_id))
+
+            if not influencer_exists:
+                flash("Error: Influencer ID does not exist.", "error")
+                return redirect(url_for("sponsor.edit_adrequest" , adrequest_id = ad_data.ad_request_id))
+            
+
+            ad_data.campaign_id = request.form.get("campaignid")
+            ad_data.influencer_id = request.form.get('influencerid') 
+            ad_data.messages = request.form.get('messages')
+            ad_data.payment_amount = request.form.get("payment_amount") 
+            ad_data.requirements = request.form.get("requirements") 
+            ad_data.status = request.form.get("status") 
+
+            try:
+                db.session.commit()
+                flash("Ad Request updated successfully.", "success")
+                return redirect(url_for("sponsor.sponsor_manageadrequest"))
+            except Exception as e:
+                error_message = str(e).split("\n")[0]
+                flash(f"Error: {error_message}", "error")
+                db.session.rollback()
+            
+
+        
+
+        return render_template("sponsor_edit_adrequest.html" , ad_data = ad_data)
+
+
+    flash("Please Login !","faliled")
+    return redirect(url_for("sponsor.sponsor_login"))
+    
