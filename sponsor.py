@@ -347,4 +347,30 @@ def edit_adrequest(adrequest_id):
 
     flash("Please Login !","faliled")
     return redirect(url_for("sponsor.sponsor_login"))
+
+
+@sponsor.route("/manageadrequest/delete_adrequest/<int:adrequest_id>", methods=["GET", "POST"])
+def deleted_adrequest(adrequest_id):
+    if "user_name" in session and session["role"] == "sponsor":
+        ad_data = AdRequest.query.get(adrequest_id)
+
+        if not ad_data:
+            flash ("Ad Request Not Found !" , "error")
+            return redirect(url_for('sponsor.sponsor_manageadrequest'))
+        
+        if request.method == "POST":
+            try:
+                db.session.delete(ad_data)
+                db.session.commit()
+                flash("Add reuquest Deleted ! Successfully","success")
+                return redirect(url_for('sponsor.sponsor_manageadrequest'))
+            except Exception as e:
+                error_message = str(e)
+                flash(f"Error: {error_message}", "error")
+                db.session.rollback()
+
+        return render_template("sponsor_delete_adrequest.html" , ad_data = ad_data)
+
     
+    flash("Please Login !","faliled")
+    return redirect(url_for("sponsor.sponsor_login"))

@@ -1,0 +1,69 @@
+{{ad_data.to_dict()}}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Delete AdResquest</title>
+
+</head>
+
+
+
+<body>
+
+  <nav >
+    <a  href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+    <div >
+        <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+        <button class="btn btn-primary" onclick="location.href='{{url_for('sponsor.sponsor_managecampaign')}}'">Manage Campaigns</button>
+        <button class="btn btn-secondary" onclick="location.href='#'">Search Influencers</button>
+    </div>
+</nav>
+
+    
+
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>    
+    
+    <div >
+        <h1>Delete AdRequest !</h1>
+
+        <p>Are you sure you want to delete the following Ad Request?</p>
+
+    </div>
+
+    <div>
+
+        <strong>Campaign ID:</strong> {{ ad_data.campaign_id }} <br>
+        <strong>Influencer ID:</strong> {{ ad_data.influencer_id }} <br>
+        <strong>Requirements:</strong> {{ ad_data.requirements }} <br>
+        <strong>Payment Amount:</strong> {{ ad_data.payment_amount }} <br>
+        <strong>Status:</strong> {{ ad_data.status }} <br>
+        <strong>Message:</strong> {{ ad_data.messages }} <br>
+
+
+        <form action="{{ url_for('sponsor.deleted_adrequest', adrequest_id=ad_data.ad_request_id) }}" method="POST">
+            <button type="submit">Confirm Delete</button>
+            <a href="{{ url_for('sponsor.sponsor_manageadrequest') }}" >Cancel</a>
+        </form>
+
+
+
+
+
+    </div>
+
+
+</body>

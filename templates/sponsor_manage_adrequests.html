@@ -71,7 +71,7 @@
 
             <td class="action-buttons">
               <button onclick="location.href='/sponsor/manageadrequest/edit_adrequest/{{ data["ad_request_id"] }}'">Edit</button>
-              <button>Delete</button>
+              <button onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{data["ad_request_id"]}}'">Delete</button>
             </td>
           </tr>
           {% endfor %}
