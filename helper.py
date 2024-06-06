@@ -96,7 +96,7 @@ def get_influencer_campaigns(influencer_id):
                
                     (Negotiation.negotiation_id.isnot(None), Negotiation.proposed_payment_amount)
                ,
-                else_=0.00
+                else_=AdRequest.payment_amount
             ).label("negotiated_amount"),
             case(
                
