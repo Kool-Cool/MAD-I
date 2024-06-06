@@ -172,6 +172,9 @@ The sponsors should be able to search
 for relevant influencers based on their niche, 
 reach, followers etc.
 
+
+[1] Campaign and Negotiations amount for respective influencer !!
+
 The Influencers should be able to search for 
 public campaigns based on their niche, 
 relevance etc.

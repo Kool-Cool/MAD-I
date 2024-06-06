@@ -12,6 +12,9 @@
 <button onclick="location.href='/logout'">Log Out</button> <br>
 <p>This is the dashboard for influencers!</p>
 
+
+
+{% if data %}
 <table>
     <thead>
         <tr>
@@ -21,25 +24,34 @@
             <th>Goals</th>
             <th>Niche</th>
             <th>Sponsor ID</th>
-            <th>End Date</th>
             <th>Start Date</th>
+            <th>End Date</th>
+            <th>Message</th>
+            <th>Requirements</th>
+            <th>Payment Amount</th>
             <th>Negotiated Amount</th>
             <th>Negotiation Status</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
+        {% for d in data %}
+        
         <tr>
-            <td>4</td>
-            <td>Name of Camp</td>
-            <td>DESCRIO ASD</td>
-            <td>5 Vid</td>
-            <td>Travel</td>
-            <td>1</td>
-            <td>2024/06/04</td>
-            <td>yyy/mm/dd</td>
-            <td>0</td>
-            <td>NONE</td>
+            <td> {{ d["campaign_id"] }}  </td>
+            <td> {{ d.campaign_name }}  </td>
+            <td> {{ d.description }}  </td>
+            <td> {{ d.goals }}  </td>
+            <td> {{ d.niche }}  </td>
+            <td> {{ d.sponsor_id }}  </td>
+            <td> {{ d.start_date }}  </td>
+            <td> {{ d.end_date }}  </td>
+            <td> {{d.messages}}</td>
+            <td>{{d.requirements}}</td>
+            <td> {{d.payment_amount}}</td>
+            <td> {{ d.negotiated_amount }}  </td>
+            <td> {{ d.negotiation_status }}  </td>
+            
             <td>
                 <button>Accept</button>
                 <button>Reject</button>
@@ -47,8 +59,13 @@
             </td>
         </tr>
         <!-- Repeat for other campaigns -->
+        {% endfor %}
     </tbody>
 </table>
 
+{% else %}
+<p>No Ad Request to show !!</p>
+
+{% endif %}
 </body>
 </html>
