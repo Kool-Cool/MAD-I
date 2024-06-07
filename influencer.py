@@ -1,5 +1,5 @@
 from flask import Blueprint , session , redirect , url_for ,request , render_template ,flash
-from models import db , User ,Influencer, Campaign
+from models import db , User ,Influencer, Campaign ,Negotiation
 import helper
 
 
@@ -11,6 +11,9 @@ influencer = Blueprint('influencer', __name__)
 
 @influencer.route("/registration" , methods=["GET", "POST"])
 def registration():
+    if "user_name" in session and "role" in session:
+        if session["role"] == "influencer":
+            return redirect(url_for("influencer.login"))
 
     if request.method == "POST":
                 
@@ -104,8 +107,39 @@ def dashboard():
 
 @influencer.route("/campaigns",methods=['GET', 'POST'])
 def show_campaign():
-    public_campaing = Campaign.query.filter_by(visibility = "public").all()
-    data = []
-    for c in public_campaing:
-        data.append(c.to_dict())
-    return render_template("influencer_campaign.html" , data=data)
+    if "user_name" in session and "role" in session:
+        if session["role"] == "influencer":
+
+            public_campaing = Campaign.query.filter_by(visibility = "public").all()
+            data = []
+            for c in public_campaing:
+                data.append(c.to_dict())
+            return render_template("influencer_campaign.html" , data=data)
+    
+    
+    flash("Please Login !","faliled")
+    return redirect(url_for("influencer.login"))
+
+
+
+
+@influencer.route("/accept_adrequest/<int:adrequest_id>")
+def accept_adrequest(adrequest_id):
+    if "user_name" in session and "role" in session:
+        if session["role"] == "influencer":
+            show_info = []
+            # check if any negotiationa is there ,if there delete !
+
+            nego = Negotiation.query.filter_by(ad_request_id = adrequest_id )
+
+            if nego:
+                pass
+            
+            # change ad_request status to accepted !
+
+            return render_template("influencer_accept.html")
+        
+    
+    flash("Please Login !","faliled")
+    return redirect(url_for("influencer.login"))
+    

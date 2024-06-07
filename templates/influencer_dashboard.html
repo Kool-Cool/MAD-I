@@ -7,10 +7,10 @@
 </head>
 <body>
 
-
+<nav>
 <button onclick="location.href='{{ url_for("influencer.show_campaign") }}'" >See All Public Campaign</button>
 <button onclick="location.href='/logout'">Log Out</button> <br>
-
+</nav>
 <h2>Welcome {{ session["user_name"]  }} !</h2>
 <p>Manage Ad Request</p>
 
@@ -57,7 +57,7 @@
             <td> {{ d.negotiation_status }}  </td>
             
             <td>
-                <button>Accept</button>
+                <button onclick="location.href='{{ url_for("influencer.accept_adrequest" , adrequest_id =d.ad_request_id) }}'">Accept</button>
                 <button>Reject</button>
                 <button>Negotiate</button>
             </td>
