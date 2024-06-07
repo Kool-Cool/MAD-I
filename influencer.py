@@ -1,5 +1,5 @@
 from flask import Blueprint , session , redirect , url_for ,request , render_template ,flash
-from models import db , User ,Influencer
+from models import db , User ,Influencer, Campaign
 import helper
 
 
@@ -83,7 +83,7 @@ def login():
     return render_template("influrencer_login.html")
 
 
-@influencer.route("/dashboard")
+@influencer.route("/dashboard",methods=['GET', 'POST'])
 def dashboard():
     if "user_name" in session and "role" in session:
         if session["role"] == "influencer":
@@ -96,6 +96,16 @@ def dashboard():
             # print(data)
             return render_template("influencer_dashboard.html" , data = data)
     
+
     
     flash("Please Login !","faliled")
     return redirect(url_for("influencer.login"))
+
+
+@influencer.route("/campaigns",methods=['GET', 'POST'])
+def show_campaign():
+    public_campaing = Campaign.query.filter_by(visibility = "public").all()
+    data = []
+    for c in public_campaing:
+        data.append(c.to_dict())
+    return render_template("influencer_campaign.html" , data=data)

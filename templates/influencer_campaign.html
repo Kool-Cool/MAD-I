@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns | Influencer</title>
+</head>
+
+<body>
+
+    <nav>
+        <button onclick="location.href='{{ url_for("influencer.dashboard") }}'">Manage AdRequest</button>
+        <button onclick="location.href='/logout'">Log Out</button> <br>
+
+        <label for="search_camp">Search Campaign</label>
+        <input type="text" placeholder="Niche " id="search_camp" name="search_camp" oninput="search()" > 
+        <button onclick="search()">Search</button> <br><br>
+    </nav>
+   
+    <table id="campaignTable">
+        <tr>
+            <th>Campaign ID</th>
+            <th>Sponsor ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Budget</th>
+            <!-- <th>Visibility</th> -->
+            <th>Goals</th>
+            <th>Niche</th>
+        </tr>
+
+        {% for d in data %}
+        <tr>
+            <td> {{d["campaign_id"]}} </td>
+            <td>{{d["sponsor_id"]}}</td>
+            <td>{{d["name"]}}</td>
+            <td>{{d["description"]}}</td>
+            <td>{{d["start_date"]}}</td>
+            <td>{{d["end_date"]}}</td>
+            <td>{{d["budget"]}}</td>
+            <td>{{d["visibility"]}}</td>
+            <td>{{d["goals"]}}</td>
+            <td>{{d["niche"]}}</td>
+        </tr>
+        {% endfor %} 
+    </table>
+
+    <script>
+        // Define a JavaScript variable that is set to the value of your Flask variable
+        var data = {{ data|tojson|safe }};
+        
+        function search() {
+            var input = document.getElementById('search_camp').value;
+            var results = data.filter(function(item) {
+                // This line now searches the 'niche' property
+                return item.niche.includes(input);
+            });
+        
+            // Clear the table
+            var table = document.getElementById('campaignTable');
+            table.innerHTML = '<tr><th>Campaign ID</th><th>Sponsor ID</th><th>Name</th><th>Description</th><th>Start Date</th><th>End Date</th><th>Budget</th><th>Goals</th><th>Niche</th></tr>';
+
+            // Add the results to the table
+            for (var i = 0; i < results.length; i++) {
+                var row = table.insertRow(-1);
+                row.insertCell(0).innerHTML = results[i]["campaign_id"];
+                row.insertCell(1).innerHTML = results[i]["sponsor_id"];
+                row.insertCell(2).innerHTML = results[i]["name"];
+                row.insertCell(3).innerHTML = results[i]["description"];
+                row.insertCell(4).innerHTML = results[i]["start_date"];
+                row.insertCell(5).innerHTML = results[i]["end_date"];
+                row.insertCell(6).innerHTML = results[i]["budget"];
+                row.insertCell(7).innerHTML = results[i]["goals"];
+                row.insertCell(8).innerHTML = results[i]["niche"];
+            }
+        }
+    </script>
+        
+</body>
+
+</html>

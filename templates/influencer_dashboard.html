@@ -7,9 +7,8 @@
 </head>
 <body>
 
-<!-- <label for="search_camp">Search Campaign</label>
-<input type="text" placeholder="Search campaign with keywords" id="search_camp" name="search_camp"> <br> -->
-<button onclick="#">See All Public Campaign</button>
+
+<button onclick="location.href='{{ url_for("influencer.show_campaign") }}'" >See All Public Campaign</button>
 <button onclick="location.href='/logout'">Log Out</button> <br>
 
 <h2>Welcome {{ session["user_name"]  }} !</h2>
