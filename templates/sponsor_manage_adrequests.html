@@ -53,7 +53,8 @@
           <th>Payment Amount</th>
           <th>Status</th>
           <th>Message</th>
-          <th>Negotiation</th>
+          <th>Proposed Payment Amount</th>
+          <th>Negotiation Info</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -66,6 +67,8 @@
           <td>{{ data["payment_amount"] }}</td>
           <td>{{ data["status"] }}</td>
           <td>{{ data["messages"] }}</td>
+          <td>{{data["proposed_payment_amount"]}}</td>
+          <td>{{data["negotiation_status"]}}</td>
           <td>
             <button class="btn btn-info"
               onclick="location.href='/sponsor/manageadrequest/edit_adrequest/{{ data["ad_request_id"] }}'">Edit</button>

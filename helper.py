@@ -58,7 +58,19 @@ def get_adrequest_by_userid(user_id):
    
             for c in temp_data :
 
-                respective_adreqt_for_campaign.append(c.to_dict())
+                c_dict = c.to_dict()
+                # print(c_dict)
+                nego = Negotiation.query.filter_by(ad_request_id = c_dict["ad_request_id"], influencer_id=c_dict["influencer_id"]).first()
+            
+                if nego:
+                    c_dict["negotiation_status"] = nego.negotiation_status
+                    c_dict["proposed_payment_amount"] = nego.proposed_payment_amount
+                else:
+                    c_dict["negotiation_status"] = 'None'
+                    c_dict["proposed_payment_amount"] = 'None'
+
+                respective_adreqt_for_campaign.append(c_dict)
+
             
             
             # print()

@@ -160,9 +160,9 @@ Ad request Management - for the sponsors
 
 #TODO
 >> Influencers login and Registration (DONE)
->> Influencers Dashboard _|- Show all `PUBLIC` ad_request
-                          |- Search 
-                          |- able to negociate
+>> Influencers Dashboard _|- Show all `PUBLIC` ad_request (DONE)
+                          |- Search  (TODO)
+                          |- able to negociate (TODO)
 
 
 
@@ -177,7 +177,5 @@ public campaigns based on their niche,
 relevance etc.
 
 [1] Campaign and Negotiations amount for respective influencer !!
-[2] Sponsor should be able to see the negotiation
-[3] Search for Campaign for Influencer 
-
-
+[2] Sponsor should be able to see the negotiation (DONE)
+[3] Search for Campaign for Influencer (TODO)
