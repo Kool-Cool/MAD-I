@@ -82,9 +82,7 @@ def sponsor_login():
     return render_template("sponsor_login.html")
 
 
-
-
-@sponsor.route("/search_influencer" ,methods=["GET", "POST"] )
+@sponsor.route("/search_influencer", methods=["GET", "POST"])
 def search_influencer():
     influencer_data = Influencer.query.all()
     # print(influencer_data)
@@ -93,10 +91,7 @@ def search_influencer():
         data.append(d.to_dict())
     # print(data)
 
-    return render_template("sponsor_search_influ.html" , data= data)
-
-
-
+    return render_template("sponsor_search_influ.html", data=data)
 
 
 @sponsor.route("/managecampaign")
@@ -253,16 +248,6 @@ def delete_campaign(campaign_id):
     return redirect(url_for("sponsor.sponsor_login"))
 
 
-
-
-
-
-
-
-
-
-
-
 @sponsor.route("/manageadrequest")
 def sponsor_manageadrequest():
     if "user_name" in session and session["role"] == "sponsor":
@@ -409,6 +394,3 @@ def deleted_adrequest(adrequest_id):
 
     flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
-
-
-

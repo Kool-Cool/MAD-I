@@ -1,11 +1,10 @@
 # helper.py
 # helper functions for database
 
-from models import User, Campaign, Sponsor , AdRequest , Influencer, Negotiation ,db
+from models import User, Campaign, Sponsor, AdRequest, Influencer, Negotiation, db
 import json
 from datetime import datetime
 from sqlalchemy import func, case
-
 
 
 def get_data_by_name(username):
@@ -25,10 +24,10 @@ def get_campaign_by_userid(user_id):
         return [campaign.to_dict() for campaign in campaigns]
     else:
         return None
-    
+
 
 # def get_adrequest_by_userid(user_id):
-#     """  
+#     """
 #     Finding LIST OF Ad_Campaign for RespectiveUSer (sponsor)
 #     """
 
@@ -55,13 +54,13 @@ def get_campaign_by_userid(user_id):
 #         # print("THIS IS OLD TEMP DATA" ,temp_data)
 #         # print()
 #         if temp_data:
-   
+
 #             for c in temp_data :
 
 #                 c_dict = c.to_dict()
 #                 # print(c_dict)
 #                 nego = Negotiation.query.filter_by(ad_request_id = c_dict["ad_request_id"], influencer_id=c_dict["influencer_id"]).first()
-            
+
 #                 if nego:
 #                     c_dict["negotiation_status"] = nego.negotiation_status
 #                     c_dict["proposed_payment_amount"] = nego.proposed_payment_amount
@@ -71,27 +70,27 @@ def get_campaign_by_userid(user_id):
 
 #                 respective_adreqt_for_campaign.append(c_dict)
 
-            
-            
+
 #             # print()
-    
+
 #     # print(respective_adreqt_for_campaign)
 #     return respective_adreqt_for_campaign
 
+
 def get_adrequest_by_userid(user_id):
-    """  
+    """
     Finding LIST OF Ad_Campaign for Respective User (sponsor)
     """
     # Find sponsor ID for the given user ID
     sponsor_data = Sponsor.query.filter_by(user_id=user_id).first()
     if not sponsor_data:
         return []
-    
+
     sponsor_id = sponsor_data.sponsor_id
-    
+
     # Find campaigns associated with the sponsor
     campaigns = Campaign.query.filter_by(sponsor_id=sponsor_id).all()
-    
+
     # Collect campaign IDs
     list_of_campaign_id = [campaign.campaign_id for campaign in campaigns]
 
@@ -105,34 +104,36 @@ def get_adrequest_by_userid(user_id):
         if temp_data:
             for c in temp_data:
                 c_dict = c.to_dict()
-                nego = Negotiation.query.filter_by(ad_request_id=c_dict["ad_request_id"], influencer_id=c_dict["influencer_id"]).first()
-                
+                nego = Negotiation.query.filter_by(
+                    ad_request_id=c_dict["ad_request_id"],
+                    influencer_id=c_dict["influencer_id"],
+                ).first()
+
                 if nego:
                     c_dict["negotiation_status"] = nego.negotiation_status
-                    c_dict["proposed_payment_amount"] = str(nego.proposed_payment_amount)
+                    c_dict["proposed_payment_amount"] = str(
+                        nego.proposed_payment_amount
+                    )
                 else:
-                    c_dict["negotiation_status"] = 'None'
-                    c_dict["proposed_payment_amount"] = 'None'
+                    c_dict["negotiation_status"] = "None"
+                    c_dict["proposed_payment_amount"] = "None"
 
                 # Adding required fields to the dictionary
-                respective_adreqt_for_campaign.append({
-                    "ad_request_id": c_dict["ad_request_id"],
-                    "campaign_id": c.campaign_id,
-                    "influencer_id": c.influencer_id,
-                    "requirements": c.requirements,
-                    "payment_amount": str(c.payment_amount),
-                    "status": c.status,
-                    "messages": c.messages,
-                    "proposed_payment_amount": c_dict["proposed_payment_amount"],
-                    "negotiation_status": c_dict["negotiation_status"],
-                })
+                respective_adreqt_for_campaign.append(
+                    {
+                        "ad_request_id": c_dict["ad_request_id"],
+                        "campaign_id": c.campaign_id,
+                        "influencer_id": c.influencer_id,
+                        "requirements": c.requirements,
+                        "payment_amount": str(c.payment_amount),
+                        "status": c.status,
+                        "messages": c.messages,
+                        "proposed_payment_amount": c_dict["proposed_payment_amount"],
+                        "negotiation_status": c_dict["negotiation_status"],
+                    }
+                )
 
     return respective_adreqt_for_campaign
-
-
-
-
-
 
 
 """ 
@@ -272,8 +273,8 @@ def get_influencer_campaigns(influencer_id):
  """
 
 
-
 import json
+
 
 def get_influencer_campaigns(influencer_id):
     # Query to get all the campaigns, ad_requests, and negotiations for the influencer
@@ -295,13 +296,19 @@ def get_influencer_campaigns(influencer_id):
             AdRequest.influencer_id,
             Negotiation.negotiation_id,
             case(
-                (Negotiation.negotiation_id.isnot(None), Negotiation.proposed_payment_amount),
-                else_=AdRequest.payment_amount
+                (
+                    Negotiation.negotiation_id.isnot(None),
+                    Negotiation.proposed_payment_amount,
+                ),
+                else_=AdRequest.payment_amount,
             ).label("negotiated_amount"),
             case(
-                (Negotiation.negotiation_id.isnot(None), Negotiation.negotiation_status),
-                else_=AdRequest.status
-            ).label("negotiation_status")
+                (
+                    Negotiation.negotiation_id.isnot(None),
+                    Negotiation.negotiation_status,
+                ),
+                else_=AdRequest.status,
+            ).label("negotiation_status"),
         )
         .join(AdRequest, AdRequest.campaign_id == Campaign.campaign_id)
         .outerjoin(Negotiation, Negotiation.ad_request_id == AdRequest.ad_request_id)
@@ -319,8 +326,14 @@ def get_influencer_campaigns(influencer_id):
             "goals": campaign.goals,
             "niche": campaign.niche,
             "sponsor_id": campaign.sponsor_id,
-            "start_date": campaign.start_date.strftime("%Y/%m/%d") if campaign.start_date else None,
-            "end_date": campaign.end_date.strftime("%Y/%m/%d") if campaign.end_date else None,
+            "start_date": (
+                campaign.start_date.strftime("%Y/%m/%d")
+                if campaign.start_date
+                else None
+            ),
+            "end_date": (
+                campaign.end_date.strftime("%Y/%m/%d") if campaign.end_date else None
+            ),
             "ad_request_id": campaign.ad_request_id,
             "influencer_id": campaign.influencer_id,
             "messages": campaign.messages,
@@ -329,13 +342,11 @@ def get_influencer_campaigns(influencer_id):
             "status": campaign.status,
             "negotiated_amount": str(campaign.negotiated_amount),
             "negotiation_status": campaign.negotiation_status,
-            "negotiation_id": campaign.negotiation_id
+            "negotiation_id": campaign.negotiation_id,
         }
         data.append(campaign_data)
 
     return data
-
-
 
 
 def get_sponsor_campaigns_info(sponsor_id):
@@ -349,13 +360,19 @@ def get_sponsor_campaigns_info(sponsor_id):
             AdRequest.status,
             AdRequest.messages,
             case(
-                (Negotiation.negotiation_id.isnot(None), Negotiation.proposed_payment_amount),
-                else_=AdRequest.payment_amount
+                (
+                    Negotiation.negotiation_id.isnot(None),
+                    Negotiation.proposed_payment_amount,
+                ),
+                else_=AdRequest.payment_amount,
             ).label("proposed_payment_amount"),
             case(
-                (Negotiation.negotiation_id.isnot(None), Negotiation.negotiation_status),
-                else_=AdRequest.status
-            ).label("negotiation_info")
+                (
+                    Negotiation.negotiation_id.isnot(None),
+                    Negotiation.negotiation_status,
+                ),
+                else_=AdRequest.status,
+            ).label("negotiation_info"),
         )
         .join(AdRequest, AdRequest.campaign_id == Campaign.campaign_id)
         .outerjoin(Negotiation, Negotiation.ad_request_id == AdRequest.ad_request_id)
@@ -375,11 +392,10 @@ def get_sponsor_campaigns_info(sponsor_id):
             "Message": campaign.messages,
             "Proposed Payment Amount": str(campaign.proposed_payment_amount),
             "Negotiation Info": campaign.negotiation_info,
-            "Action": "accepted" if campaign.negotiation_info == "accepted" else "pending"
+            "Action": (
+                "accepted" if campaign.negotiation_info == "accepted" else "pending"
+            ),
         }
         data.append(campaign_data)
 
     return data
-
-
-
