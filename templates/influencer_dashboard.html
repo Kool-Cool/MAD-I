@@ -73,7 +73,7 @@
             <td>
                 <button onclick="location.href='{{ url_for("influencer.accept_adrequest" , adrequest_id =d.ad_request_id) }}'">Accept</button>
                 <button>Reject</button>
-                <button>Negotiate</button>
+                <button onclick="location.href='{{ url_for("influencer.nego_adrequest" , adrequest_id =d.ad_request_id) }}'">Negotiate</button>
             </td>
         </tr>
         <!-- Repeat for other campaigns -->

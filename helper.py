@@ -116,6 +116,7 @@ def get_adrequest_by_userid(user_id):
 
                 # Adding required fields to the dictionary
                 respective_adreqt_for_campaign.append({
+                    "ad_request_id": c_dict["ad_request_id"],
                     "campaign_id": c.campaign_id,
                     "influencer_id": c.influencer_id,
                     "requirements": c.requirements,

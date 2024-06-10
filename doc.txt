@@ -171,13 +171,18 @@ Ad request Management - for the sponsors
 The sponsors should be able to search 
 for relevant influencers based on their niche, 
 reach, followers etc.  (TODO)
+[4] Search for Sponsor (ToDo)
+
 
 The Influencers should be able to search for 
 public campaigns based on their niche, 
 relevance etc.         (DONE)
 
-[1] Campaign and Negotiations amount for respective influencer !! (DONE)
+[1] Campaign and Negotiations amount for respective influencer !! 
 [2] Sponsor should be able to see the negotiation (DONE)
 [3] Search for Campaign for Influencer (DONE)
-[4] Search for Sponsor (ToDo)
-[5] If ad_request is already accepted then No negotiation and rejections !!
+
+[5] If ad_request is already accepted then No negotiation and rejections !!(DONE)
+[6] Accept ad_request (DONE)
+[7] negociate ad_request (DONE)
+[8] Reject ad_request (TODO)

@@ -9,7 +9,6 @@ from models import (
     Campaign,
     AdRequest,
     Influencer,
-
 )
 from flask import session, flash, jsonify
 import helper
@@ -79,7 +78,7 @@ def sponsor_login():
             return redirect(url_for("sponsor.sponsor_managecampaign"))
         else:
             flash("Invalid User name or password", "danger")
-    
+
     return render_template("sponsor_login.html")
 
 
@@ -93,7 +92,7 @@ def sponsor_managecampaign():
             "sponsor_managecampaign.html", data=session, campaign_data=campaign_data
         )
 
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -159,7 +158,7 @@ def add_campaign():
                 db.session.rollback()
 
         return render_template("sponsor_addcampaign.html")
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -201,7 +200,7 @@ def edit_campaign(campaign_id):
 
         return render_template("sponsor_editcampaign.html", campaign=campaign)
 
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -233,7 +232,7 @@ def delete_campaign(campaign_id):
 
         return render_template("sponsor_deletecampaign.html", campaign=campaign)
 
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -247,7 +246,7 @@ def sponsor_manageadrequest():
             "sponsor_manage_adrequests.html", adrequest_data=adrequest_data
         )
 
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -256,8 +255,12 @@ def add_adrequest():
     if "user_name" in session and session["role"] == "sponsor":
 
         if request.method == "POST":
-            campaign_exists = Campaign.query.filter_by(campaign_id=request.form.get("campaignid")).first()
-            influencer_exists = Influencer.query.filter_by(influencer_id=request.form.get("influencerid")).first()
+            campaign_exists = Campaign.query.filter_by(
+                campaign_id=request.form.get("campaignid")
+            ).first()
+            influencer_exists = Influencer.query.filter_by(
+                influencer_id=request.form.get("influencerid")
+            ).first()
             # print(campaign_exists)
             # print()
             # print(influencer_exists)
@@ -268,30 +271,29 @@ def add_adrequest():
             if not influencer_exists:
                 flash("Error: Influencer ID does not exist.", "error")
                 return redirect(url_for("sponsor.add_adrequest"))
-            
+
             new_reqst = AdRequest(
-                campaign_id = request.form.get("campaignid"),
-                influencer_id = request.form.get("influencerid"),
-                messages = request.form.get("messages") ,
-                payment_amount = request.form.get("payment_amount") ,
-                requirements = request.form.get("requirements") ,
-                status = request.form.get("status") 
+                campaign_id=request.form.get("campaignid"),
+                influencer_id=request.form.get("influencerid"),
+                messages=request.form.get("messages"),
+                payment_amount=request.form.get("payment_amount"),
+                requirements=request.form.get("requirements"),
+                status=request.form.get("status"),
             )
 
-            
             try:
                 db.session.add(new_reqst)
                 db.session.commit()
                 flash("Added New Ad Request Successfully", "success")
                 return redirect(url_for("sponsor.sponsor_manageadrequest"))
             except Exception as e:
-                error_message = str(e).split("\n")[0]  
+                error_message = str(e).split("\n")[0]
                 flash(f"Error: {error_message}", "error")
                 db.session.rollback()
 
         return render_template("sponsor_add_adrequest.html")
 
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
@@ -301,33 +303,43 @@ def add_adrequest():
 def edit_adrequest(adrequest_id):
     if "user_name" in session and session["role"] == "sponsor":
         ad_data = AdRequest.query.get(adrequest_id)
-        
 
-        if not ad_data :
+        if not ad_data:
             flash("Ad Request not found.", "error")
             return redirect(url_for("sponsor.sponsor_manageadrequest"))
-        
+
         if request.method == "POST":
-            campaign_exists = Campaign.query.filter_by(campaign_id=request.form.get("campaignid")).first()
-            influencer_exists = Influencer.query.filter_by(influencer_id=request.form.get("influencerid")).first()
+            campaign_exists = Campaign.query.filter_by(
+                campaign_id=request.form.get("campaignid")
+            ).first()
+            influencer_exists = Influencer.query.filter_by(
+                influencer_id=request.form.get("influencerid")
+            ).first()
             # print(campaign_exists)
             # print()
             # print(influencer_exists)
             if not campaign_exists:
                 flash("Error: Campaign ID does not exist.", "error")
-                return redirect(url_for("sponsor.edit_adrequest" , adrequest_id=ad_data.ad_request_id))
+                return redirect(
+                    url_for(
+                        "sponsor.edit_adrequest", adrequest_id=ad_data["ad_request_id"]
+                    )
+                )
 
             if not influencer_exists:
                 flash("Error: Influencer ID does not exist.", "error")
-                return redirect(url_for("sponsor.edit_adrequest" , adrequest_id = ad_data.ad_request_id))
-            
+                return redirect(
+                    url_for(
+                        "sponsor.edit_adrequest", adrequest_id=ad_data["ad_request_id"]
+                    )
+                )
 
             ad_data.campaign_id = request.form.get("campaignid")
-            ad_data.influencer_id = request.form.get('influencerid') 
-            ad_data.messages = request.form.get('messages')
-            ad_data.payment_amount = request.form.get("payment_amount") 
-            ad_data.requirements = request.form.get("requirements") 
-            ad_data.status = request.form.get("status") 
+            ad_data.influencer_id = request.form.get("influencerid")
+            ad_data.messages = request.form.get("messages")
+            ad_data.payment_amount = request.form.get("payment_amount")
+            ad_data.requirements = request.form.get("requirements")
+            ad_data.status = request.form.get("status")
 
             try:
                 db.session.commit()
@@ -337,39 +349,36 @@ def edit_adrequest(adrequest_id):
                 error_message = str(e).split("\n")[0]
                 flash(f"Error: {error_message}", "error")
                 db.session.rollback()
-            
 
-        
+        return render_template("sponsor_edit_adrequest.html", ad_data=ad_data)
 
-        return render_template("sponsor_edit_adrequest.html" , ad_data = ad_data)
-
-
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
 
 
-@sponsor.route("/manageadrequest/delete_adrequest/<int:adrequest_id>", methods=["GET", "POST"])
+@sponsor.route(
+    "/manageadrequest/delete_adrequest/<int:adrequest_id>", methods=["GET", "POST"]
+)
 def deleted_adrequest(adrequest_id):
     if "user_name" in session and session["role"] == "sponsor":
         ad_data = AdRequest.query.get(adrequest_id)
 
         if not ad_data:
-            flash ("Ad Request Not Found !" , "error")
-            return redirect(url_for('sponsor.sponsor_manageadrequest'))
-        
+            flash("Ad Request Not Found !", "error")
+            return redirect(url_for("sponsor.sponsor_manageadrequest"))
+
         if request.method == "POST":
             try:
                 db.session.delete(ad_data)
                 db.session.commit()
-                flash("Add reuquest Deleted ! Successfully","success")
-                return redirect(url_for('sponsor.sponsor_manageadrequest'))
+                flash("Add reuquest Deleted ! Successfully", "success")
+                return redirect(url_for("sponsor.sponsor_manageadrequest"))
             except Exception as e:
                 error_message = str(e)
                 flash(f"Error: {error_message}", "error")
                 db.session.rollback()
 
-        return render_template("sponsor_delete_adrequest.html" , ad_data = ad_data)
+        return render_template("sponsor_delete_adrequest.html", ad_data=ad_data)
 
-    
-    flash("Please Login !","faliled")
+    flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))

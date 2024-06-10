@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accept the Ad Request</title>
+    <title>Negotiate The Ad Request</title>
 </head>
 
 <body>
@@ -27,7 +27,6 @@
     <nav>
         <button onclick="location.href='/logout'">Log Out</button> <br>
     </nav>
-
 
     <table>
         <tr>
@@ -97,8 +96,10 @@
         </tr>
     </table>
     
-    <form method="POST" action="{{ url_for('influencer.accept_adrequest', adrequest_id=show_info.ad_request_id) }}">
-        <button type="submit">Accept this Ad Request</button>
+    <form method="POST" action="{{ url_for('influencer.nego_adrequest', adrequest_id=show_info.ad_request_id) }}">
+        
+        <label name="nego_amount">Enter Amount to Negotiate</label>
+        <input type="number"    name="nego_amount"  required>
+        <br>
+        <button type="submit">Submit Negotiation</button>
     </form>
-    
-</body>

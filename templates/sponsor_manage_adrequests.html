@@ -40,6 +40,8 @@
     {% endwith %}
   </div>
 
+<!-- {{adrequest_data  }} -->
+
   <div class="container mt-4">
     <button class="btn btn-success" onclick="location.href='/sponsor/manageadrequest/add_adrequest'"> + Add AdRequest
     </button>
@@ -70,11 +72,14 @@
           <td>{{data["proposed_payment_amount"]}}</td>
           <td>{{data["negotiation_status"]}}</td>
           <td>
-            <button class="btn btn-info"
-              onclick="location.href='/sponsor/manageadrequest/edit_adrequest/{{ data["ad_request_id"] }}'">Edit</button>
+  <button class="btn btn-info" 
+            onclick='location.href="{{ url_for("sponsor.edit_adrequest", adrequest_id=data["ad_request_id"]) }}"'>Edit</button> 
             <button class="btn btn-danger"
-              onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{ data["ad_request_id"] }}'">Delete</button>
-          </td>
+              onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{ data["ad_request_id"] }}'">Delete</button> 
+
+
+            
+                    </td>
         </tr>
         {% endfor %}
       </tbody>
