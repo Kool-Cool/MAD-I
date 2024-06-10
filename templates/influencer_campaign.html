@@ -5,49 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campaigns | Influencer</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
 <body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="btn btn-primary" onclick="location.href='{{ url_for('influencer.dashboard') }}'">Manage AdRequest</button>
+            <button class="btn btn-secondary ml-2" onclick="location.href='/logout'">Log Out</button>
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Niche" id="search_camp" name="search_camp" oninput="search()">
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Search</button>
+            </form>
+        </nav>
 
-    <nav>
-        <button onclick="location.href='{{ url_for("influencer.dashboard") }}'">Manage AdRequest</button>
-        <button onclick="location.href='/logout'">Log Out</button> <br>
+        <table class="table table-striped mt-3" id="campaignTable">
+            <thead>
+                <tr>
+                    <th scope="col">Campaign ID</th>
+                    <th scope="col">Sponsor ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Budget</th>
+                    <th scope="col">Goals</th>
+                    <th scope="col">Niche</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data %}
+                <tr>
+                    <td>{{d["campaign_id"]}}</td>
+                    <td>{{d["sponsor_id"]}}</td>
+                    <td>{{d["name"]}}</td>
+                    <td>{{d["description"]}}</td>
+                    <td>{{d["start_date"]}}</td>
+                    <td>{{d["end_date"]}}</td>
+                    <td>{{d["budget"]}}</td>
+                    <td>{{d["goals"]}}</td>
+                    <td>{{d["niche"]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-        <label for="search_camp">Search Campaign</label>
-        <input type="text" placeholder="Niche " id="search_camp" name="search_camp" oninput="search()" > 
-        <button onclick="search()">Search</button> <br><br>
-    </nav>
-   
-    <table id="campaignTable">
-        <tr>
-            <th>Campaign ID</th>
-            <th>Sponsor ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Budget</th>
-            <!-- <th>Visibility</th> -->
-            <th>Goals</th>
-            <th>Niche</th>
-        </tr>
-
-        {% for d in data %}
-        <tr>
-            <td> {{d["campaign_id"]}} </td>
-            <td>{{d["sponsor_id"]}}</td>
-            <td>{{d["name"]}}</td>
-            <td>{{d["description"]}}</td>
-            <td>{{d["start_date"]}}</td>
-            <td>{{d["end_date"]}}</td>
-            <td>{{d["budget"]}}</td>
-            <td>{{d["visibility"]}}</td>
-            <td>{{d["goals"]}}</td>
-            <td>{{d["niche"]}}</td>
-        </tr>
-        {% endfor %} 
-    </table>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         // Define a JavaScript variable that is set to the value of your Flask variable
         var data = {{ data|tojson|safe }};
@@ -78,7 +84,7 @@
             }
         }
     </script>
-        
 </body>
 
 </html>
+

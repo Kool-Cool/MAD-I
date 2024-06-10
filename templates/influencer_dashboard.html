@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Influencer Dashboard</title>
-</head>
-<body>
+    <!-- Adding Bootstrap CSS for styling -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
 
+        nav {
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        .welcome-message {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
     <div id="flash">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -21,69 +66,71 @@
         {% endwith %}
     </div>
 
-<nav>
-<button onclick="location.href='{{ url_for("influencer.show_campaign") }}'" >See All Public Campaign</button>
-<button onclick="location.href='/logout'">Log Out</button> <br>
-</nav>
-<h2>Welcome {{ session["user_name"]  }} !</h2>
-<p>Manage Ad Request</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="btn btn-primary" onclick="location.href='{{ url_for("influencer.show_campaign") }}'">See All Public Campaigns</button>
+        <button class="btn btn-danger" onclick="location.href='/logout'">Log Out</button>
+    </nav>
 
+    <div class="welcome-message">
+        <h2>Welcome, {{ session["user_name"] }}!</h2>
+        <p>Manage Ad Requests</p>
+    </div>
 
+    {% if data %}
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Campaign ID</th>
+                <th>Campaign Name</th>
+                <th>Description</th>
+                <th>Goals</th>
+                <th>Niche</th>
+                <th>Sponsor ID</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Message</th>
+                <th>Ad Request Status</th>
+                <th>Requirements</th>
+                <th>Payment Amount</th>
+                <th>Negotiated Amount</th>
+                <th>Negotiation Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{ d["campaign_id"] }}</td>
+                <td>{{ d.campaign_name }}</td>
+                <td>{{ d.description }}</td>
+                <td>{{ d.goals }}</td>
+                <td>{{ d.niche }}</td>
+                <td>{{ d.sponsor_id }}</td>
+                <td>{{ d.start_date }}</td>
+                <td>{{ d.end_date }}</td>
+                <td>{{ d.messages }}</td>
+                <td>{{ d.status }}</td>
+                <td>{{ d.requirements }}</td>
+                <td>{{ d.payment_amount }}</td>
+                <td>{{ d.negotiated_amount }}</td>
+                <td>{{ d.negotiation_status }}</td>
+                <td>
+                    <button class="btn btn-success" onclick="location.href='{{ url_for("influencer.accept_adrequest" , adrequest_id =d.ad_request_id) }}'">Accept</button>
+                    <button class="btn btn-danger" onclick="location.href='{{ url_for("influencer.reject_adrequest" , adrequest_id =d.ad_request_id) }}'">Reject</button>
+                    <button class="btn btn-warning" onclick="location.href='{{ url_for("influencer.nego_adrequest" , adrequest_id =d.ad_request_id) }}'">Negotiate</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No Ad Requests to show!</p>
+    {% endif %}
 
-{% if data %}
-<table>
-    <thead>
-        <tr>
-            <th>Campaign ID</th>
-            <th>Campaign Name</th>
-            <th>Description</th>
-            <th>Goals</th>
-            <th>Niche</th>
-            <th>Sponsor ID</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Message</th>
-            <th>Ad Request Status</th>
-            <th>Requirements</th>
-            <th>Payment Amount</th>
-            <th>Negotiated Amount</th>
-            <th>Negotiation Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for d in data %}
-        
-        <tr>
-            <td> {{ d["campaign_id"] }}  </td>
-            <td> {{ d.campaign_name }}  </td>
-            <td> {{ d.description }}  </td>
-            <td> {{ d.goals }}  </td>
-            <td> {{ d.niche }}  </td>
-            <td> {{ d.sponsor_id }}  </td>
-            <td> {{ d.start_date }}  </td>
-            <td> {{ d.end_date }}  </td>
-            <td> {{d.messages}}</td>
-            <td>{{ d.status }}</td>
-            <td>{{d.requirements}}</td>
-            <td> {{d.payment_amount}}</td>
-            <td> {{ d.negotiated_amount }}  </td>
-            <td> {{ d.negotiation_status }}  </td>
-            
-            <td>
-                <button onclick="location.href='{{ url_for("influencer.accept_adrequest" , adrequest_id =d.ad_request_id) }}'">Accept</button>
-                <button onclick="location.href='{{ url_for("influencer.reject_adrequest" , adrequest_id =d.ad_request_id) }}'">Reject</button>
-                <button onclick="location.href='{{ url_for("influencer.nego_adrequest" , adrequest_id =d.ad_request_id) }}'">Negotiate</button>
-            </td>
-        </tr>
-        <!-- Repeat for other campaigns -->
-        {% endfor %}
-    </tbody>
-</table>
-
-{% else %}
-<p>No Ad Request to show !!</p>
-
-{% endif %}
+    <!-- Adding Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

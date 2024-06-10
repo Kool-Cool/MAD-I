@@ -82,6 +82,16 @@ def sponsor_login():
     return render_template("sponsor_login.html")
 
 
+
+
+@sponsor.route("/search_influencer" ,methods=["GET", "POST"] )
+def search_influencer():
+    return "Here we will search for influencers !!!"
+
+
+
+
+
 @sponsor.route("/managecampaign")
 def sponsor_managecampaign():
     if "user_name" in session and session["role"] == "sponsor":
@@ -236,6 +246,16 @@ def delete_campaign(campaign_id):
     return redirect(url_for("sponsor.sponsor_login"))
 
 
+
+
+
+
+
+
+
+
+
+
 @sponsor.route("/manageadrequest")
 def sponsor_manageadrequest():
     if "user_name" in session and session["role"] == "sponsor":
@@ -382,3 +402,6 @@ def deleted_adrequest(adrequest_id):
 
     flash("Please Login !", "faliled")
     return redirect(url_for("sponsor.sponsor_login"))
+
+
+

@@ -144,6 +144,16 @@ def accept_adrequest(adrequest_id):
             
             
             if show_info is not None:
+                # Check if Already Accepted !!
+                if show_info['negotiation_status'] == "accepted" and show_info['status'] == "accepted" :
+                    flash("You have Already Accepted the Ad Request !! ","failure")
+                    return redirect(url_for("influencer.login"))
+
+                # Check if Already Rejected !!
+                elif show_info['negotiation_status'] == "rejected":
+                    flash("You have Already Rejected the Ad Request !! ","failure")
+                    return redirect(url_for("influencer.login"))
+                
                 if request.method == "POST":
                     # check if any negotiationa is there ,if there delete !
                     if show_info['negotiation_id']:
@@ -227,7 +237,7 @@ def nego_adrequest(adrequest_id):
                 return redirect(url_for("influencer.login"))
 
             # Check if Already Rejected !!
-            if show_info['negotiation_status'] == "rejected":
+            elif show_info['negotiation_status'] == "rejected":
                 flash("You have Already Rejected the Ad Request !! ","failure")
                 return redirect(url_for("influencer.login"))
             

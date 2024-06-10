@@ -5,6 +5,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Negotiate The Ad Request</title>
+    <!-- Adding Bootstrap CSS for styling -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,84 +83,77 @@
         {% endwith %}
     </div>
 
-<!-- {{show_info}}     -->
-
     <nav>
-        <button onclick="location.href='/logout'">Log Out</button> <br>
+        <button class="btn btn-primary" onclick="location.href='/logout'">Log Out</button>
     </nav>
 
-    <table>
+    <table class="table">
         <tr>
             <th>Campaign ID</th>
-            <td>{{show_info.campaign_id}}</td>
+            <td>{{ show_info.campaign_id }}</td>
         </tr>
         <tr>
             <th>Campaign Name</th>
-            <td>{{show_info.campaign_name}}</td>
+            <td>{{ show_info.campaign_name }}</td>
         </tr>
         <tr>
             <th>Description</th>
-            <td>{{show_info.description}} </td>
+            <td>{{ show_info.description }}</td>
         </tr>
         <tr>
             <th>Goals</th>
-            <td>{{show_info.goals}}</td>
+            <td>{{ show_info.goals }}</td>
         </tr>
         <tr>
             <th>Niche</th>
-            <td>{{show_info.niche}}</td>
+            <td>{{ show_info.niche }}</td>
         </tr>
-        <!-- <tr>
-            <th>Sponsor ID</th>
-            <td>{{show_info}}</td>
-        </tr> -->
-
         <tr>
             <th>Start Date</th>
-            <td>{{show_info.start_date}}</td>
+            <td>{{ show_info.start_date }}</td>
         </tr>
         <tr>
             <th>End Date</th>
-            <td>{{show_info.end_date}}</td>
+            <td>{{ show_info.end_date }}</td>
         </tr>
-        <!-- <tr>
-            <th>Ad Request ID</th>
-            <td>{{show_info}}</td>
-        </tr> -->
-        <!-- <tr>
-            <th>Influencer ID</th>
-            <td>{{show_info}}</td>
-        </tr> -->
         <tr>
             <th>Messages</th>
-            <td>{{show_info.messages}}</td>
+            <td>{{ show_info.messages }}</td>
         </tr>
         <tr>
             <th>Payment Amount</th>
-            <td>{{show_info.payment_amount}}</td>
+            <td>{{ show_info.payment_amount }}</td>
         </tr>
         <tr>
             <th>Requirements</th>
-            <td>{{show_info.requirements}}</td>
+            <td>{{ show_info.requirements }}</td>
         </tr>
         <tr>
             <th>Status</th>
-            <td>{{show_info.status}}</td>
+            <td>{{ show_info.status }}</td>
         </tr>
         <tr>
             <th>Negotiated Amount</th>
-            <td>{{show_info.negotiated_amount}}</td>
+            <td>{{ show_info.negotiated_amount }}</td>
         </tr>
         <tr>
             <th>Negotiation Status</th>
-            <td>{{show_info.negotiation_status}}</td>
+            <td>{{ show_info.negotiation_status }}</td>
         </tr>
     </table>
-    
+
     <form method="POST" action="{{ url_for('influencer.nego_adrequest', adrequest_id=show_info.ad_request_id) }}">
-        
-        <label name="nego_amount">Enter Amount to Negotiate</label>
-        <input type="number"    name="nego_amount"  required>
-        <br>
-        <button type="submit">Submit Negotiation</button>
+        <div class="form-group">
+            <label for="nego_amount">Enter Amount to Negotiate</label>
+            <input type="number" class="form-control" id="nego_amount" name="nego_amount" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Negotiation</button>
     </form>
+
+    <!-- Adding Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
