@@ -170,8 +170,8 @@ Ad request Management - for the sponsors
 
 The sponsors should be able to search 
 for relevant influencers based on their niche, 
-reach, followers etc.  (TODO)
-[4] Search for Sponsor (ToDo)
+reach, followers etc.  (DONE)
+[4] Search for Sponsor (DONE)
 
 
 The Influencers should be able to search for 
