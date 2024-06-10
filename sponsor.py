@@ -86,7 +86,14 @@ def sponsor_login():
 
 @sponsor.route("/search_influencer" ,methods=["GET", "POST"] )
 def search_influencer():
-    return "Here we will search for influencers !!!"
+    influencer_data = Influencer.query.all()
+    # print(influencer_data)
+    data = []
+    for d in influencer_data:
+        data.append(d.to_dict())
+    # print(data)
+
+    return render_template("sponsor_search_influ.html" , data= data)
 
 
 

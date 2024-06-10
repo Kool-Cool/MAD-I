@@ -16,7 +16,7 @@
             <button class="btn btn-secondary ml-2" onclick="location.href='/logout'">Log Out</button>
             <form class="form-inline my-2 my-lg-0 ml-auto">
                 <input class="form-control mr-sm-2" type="search" placeholder="Niche" id="search_camp" name="search_camp" oninput="search()">
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="search(); return false;">Search</button>
             </form>
         </nav>
 
@@ -59,10 +59,10 @@
         var data = {{ data|tojson|safe }};
         
         function search() {
-            var input = document.getElementById('search_camp').value;
+            var input = document.getElementById('search_camp').value.toLowerCase();
             var results = data.filter(function(item) {
                 // This line now searches the 'niche' property
-                return item.niche.includes(input);
+                return item.niche.toLowerCase().includes(input);
             });
         
             // Clear the table

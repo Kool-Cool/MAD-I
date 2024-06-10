@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Influencers | Sponsor</title>
+    <!-- Adding Bootstrap CSS for styling -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .navbar-custom {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .btn-custom {
+            margin-right: 10px;
+        }
+
+        form {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+        <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div class="ml-auto">
+            <button class="btn btn-danger btn-custom" onclick="location.href='/logout'">Log Out</button>
+            <button class="btn btn-primary btn-custom" onclick="location.href='{{ url_for('sponsor.sponsor_manageadrequest') }}'">Manage Ad Requests</button>
+            <form class="form-inline">
+                <input type="search" class="form-control mr-2" placeholder="Search by niche" id="search_camp" name="search_camp" oninput="influ_search()">
+                <button class="btn btn-outline-success" onclick="influ_search(); return false;">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <table class="table table-striped" id="campaignTable">
+        <thead>
+            <tr>
+                <th scope="col">Influencer ID</th>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th scope="col">Niche</th>
+                <th scope="col">Reach</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{ d["influencer_id"] }}</td>
+                <td>{{ d["category"] }}</td>
+                <td>{{ d["name"] }}</td>
+                <td>{{ d["niche"] }}</td>
+                <td>{{ d["reach"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Define a JavaScript variable that is set to the value of your Flask variable
+        var data = {{ data|tojson|safe }};
+        
+        function influ_search() {
+            var input = document.getElementById('search_camp').value.toLowerCase();
+            var results = data.filter(function(item) {
+                return item.niche.toLowerCase().includes(input);
+            });
+
+            // Clear the table
+            var table = document.getElementById('campaignTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+
+            // Add the results to the table
+            for (var i = 0; i < results.length; i++) {
+                var row = table.insertRow();
+                row.insertCell(0).innerHTML = results[i]["influencer_id"];
+                row.insertCell(1).innerHTML = results[i]["category"];
+                row.insertCell(2).innerHTML = results[i]["name"];
+                row.insertCell(3).innerHTML = results[i]["niche"];
+                row.insertCell(4).innerHTML = results[i]["reach"];
+            }
+        }
+    </script>
+
+    <!-- Adding Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
