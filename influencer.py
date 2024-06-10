@@ -1,5 +1,5 @@
 from flask import Blueprint , session , redirect , url_for ,request , render_template ,flash
-from models import db , User ,Influencer, Campaign ,Negotiation
+from models import db , User ,Influencer, Campaign ,Negotiation , AdRequest
 import helper
 
 
@@ -123,21 +123,76 @@ def show_campaign():
 
 
 
-@influencer.route("/accept_adrequest/<int:adrequest_id>")
+@influencer.route("/accept_adrequest/<int:adrequest_id>" ,methods=['GET', 'POST'])
 def accept_adrequest(adrequest_id):
     if "user_name" in session and "role" in session:
         if session["role"] == "influencer":
-            show_info = []
-            # check if any negotiationa is there ,if there delete !
-
-            nego = Negotiation.query.filter_by(ad_request_id = adrequest_id )
-
-            if nego:
-                pass
+            user_id = session["user_id"]
+            influencer_id = Influencer.query.filter_by(user_id=user_id).first().influencer_id
+            data = helper.get_influencer_campaigns(influencer_id)
             
-            # change ad_request status to accepted !
+            show_info = None
+            for d in data:
+                # print(d)
+                if d['ad_request_id'] == adrequest_id:
+                    show_info = d
+                    break
+            
+            
+            
+            
+            if show_info is not None:
+                if request.method == "POST":
+                    # check if any negotiationa is there ,if there delete !
+                    if show_info['negotiation_id']:
+                        nego = Negotiation.query.filter_by(negotiation_id = show_info['negotiation_id'] ).first()
+                        nego.negotiation_status = "accepted"
+                        nego.proposed_payment_amount = show_info['payment_amount']
 
-            return render_template("influencer_accept.html")
+                        try:
+                            db.session.commit()
+                        
+                        except Exception as e:
+                            error_message = str(e).split("\n")[0]
+                            flash(f"Error: {error_message}", "error")
+                            db.session.rollback()
+                    else:
+                        new_nego = Negotiation(
+                            ad_request_id = show_info['ad_request_id'] ,
+                            influencer_id = show_info['influencer_id'],
+                            negotiation_status = "accepted" ,
+                            proposed_payment_amount = show_info['payment_amount'],
+                        )
+
+                        try:
+                            db.session.add(new_nego)
+                            db.session.commit()
+                        except Exception as e:
+                            error_message = str(e).split("\n")[0]
+                            flash(f"Error: {error_message}", "error")
+                            db.session.rollback()
+
+
+                    
+                    # change ad_request status to accepted !
+                    ad_reqst = AdRequest.query.filter_by(ad_request_id =show_info['ad_request_id']).first_or_404()
+                    ad_reqst.status = "accepted"
+                    try:
+                        db.session.commit()
+                        
+                    except Exception as e:
+                        error_message = str(e).split("\n")[0]
+                        flash(f"Error: {error_message}", "error")
+                        db.session.rollback()
+
+                    flash("Accepted the Ad_request","success")
+                    return redirect(url_for("influencer.login"))
+                    
+
+                return render_template("influencer_accept.html" ,show_info = show_info)
+            
+            flash("Wrong ad_request_id !!","faliled")
+            return redirect(url_for("influencer.login"))
         
     
     flash("Please Login !","faliled")

@@ -180,3 +180,4 @@ relevance etc.
 [2] Sponsor should be able to see the negotiation (DONE)
 [3] Search for Campaign for Influencer (DONE)
 [4] Search for Sponsor (ToDo)
+[5] If ad_request is already accepted then No negotiation and rejections !!

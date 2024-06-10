@@ -7,6 +7,20 @@
 </head>
 <body>
 
+    <div id="flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
 <nav>
 <button onclick="location.href='{{ url_for("influencer.show_campaign") }}'" >See All Public Campaign</button>
 <button onclick="location.href='/logout'">Log Out</button> <br>
