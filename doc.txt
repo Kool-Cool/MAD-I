@@ -174,9 +174,9 @@ reach, followers etc.  (TODO)
 
 The Influencers should be able to search for 
 public campaigns based on their niche, 
-relevance etc.
+relevance etc.         (DONE)
 
-[1] Campaign and Negotiations amount for respective influencer !!
+[1] Campaign and Negotiations amount for respective influencer !! (DONE)
 [2] Sponsor should be able to see the negotiation (DONE)
 [3] Search for Campaign for Influencer (DONE)
 [4] Search for Sponsor (ToDo)
