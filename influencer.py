@@ -57,8 +57,6 @@ def registration():
 
 
 
-
-
 @influencer.route("/login", methods=['GET', 'POST'])
 def login():
     if "user_name" in session and "role" in session:
@@ -86,6 +84,8 @@ def login():
     return render_template("influrencer_login.html")
 
 
+
+
 @influencer.route("/dashboard",methods=['GET', 'POST'])
 def dashboard():
     if "user_name" in session and "role" in session:
@@ -103,6 +103,8 @@ def dashboard():
     
     flash("Please Login !","faliled")
     return redirect(url_for("influencer.login"))
+
+
 
 
 @influencer.route("/campaigns",methods=['GET', 'POST'])
@@ -221,12 +223,12 @@ def nego_adrequest(adrequest_id):
             # Check if Already Accepted !!
 
             if show_info['negotiation_status'] == "accepted" and show_info['status'] == "accepted" :
-                flash("You have Already Accepted the offer !! ","failure")
+                flash("You have Already Accepted the Ad Request !! ","failure")
                 return redirect(url_for("influencer.login"))
 
             # Check if Already Rejected !!
             if show_info['negotiation_status'] == "rejected":
-                flash("You have Already Rejected the offer !! ","failure")
+                flash("You have Already Rejected the Ad Request !! ","failure")
                 return redirect(url_for("influencer.login"))
             
 
@@ -285,3 +287,85 @@ def nego_adrequest(adrequest_id):
     
     flash("Please Login !","faliled")
     return redirect(url_for("influencer.login"))
+
+
+
+@influencer.route("/reject_adrequest/<int:adrequest_id>" ,methods=['GET', 'POST'])
+def reject_adrequest(adrequest_id):
+    if "user_name" in session and "role" in session:
+        if session["role"] == "influencer":
+            user_id = session["user_id"]
+            influencer_id = Influencer.query.filter_by(user_id=user_id).first().influencer_id
+            data = helper.get_influencer_campaigns(influencer_id)
+            
+            show_info = None
+            for d in data:
+                # print(d)
+                if d['ad_request_id'] == adrequest_id:
+                    show_info = d
+                    break
+
+            # Check if Already Accepted !!
+            if show_info['negotiation_status'] == "accepted" and show_info['status'] == "accepted" :
+                flash("You have Already Accepted the Ad Request !! ","failure")
+                return redirect(url_for("influencer.login"))
+            
+            # Check if Already Rejected !!
+            if show_info['negotiation_status'] == "rejected" and show_info['status'] == "rejected":
+                flash("You have Already Rejected the Ad Request !! ","failure")
+                return redirect(url_for("influencer.login"))
+            
+
+            if request.method == "POST":
+                # Change Ad_request status
+                old_ad_requt = AdRequest.query.filter_by(ad_request_id =  show_info['ad_request_id']).first_or_404()
+                old_ad_requt.status = "rejected"
+
+                try:
+                    db.session.commit()
+                        
+                except Exception as e:
+                    error_message = str(e).split("\n")[0]
+                    flash(f"Error: {error_message}", "error")
+                    db.session.rollback()
+
+                # Change Nego status to Rejected !
+                if show_info["negotiation_id"] is not None:
+                    old_nego = Negotiation.query.filter_by(negotiation_id = show_info['negotiation_id']).first_or_404()
+                    # print(old_nego.to_dict())
+                    old_nego.negotiation_status = "rejected"
+                    try:
+                        db.session.commit()
+                        
+                    except Exception as e:
+                        error_message = str(e).split("\n")[0]
+                        flash(f"Error: {error_message}", "error")
+                        db.session.rollback()
+
+
+
+                else:
+                    add_new_nego = Negotiation(
+                        ad_request_id = show_info['ad_request_id'],
+                        influencer_id = show_info['influencer_id'],
+                        negotiation_status = "rejected",
+                        proposed_payment_amount = show_info['negotiated_amount']
+                    )
+                    try:
+                        db.session.add(add_new_nego)
+                        db.session.commit()
+                    except Exception as e:
+                        error_message = str(e).split("\n")[0]
+                        flash(f"Error: {error_message}", "error")
+                        db.session.rollback()
+
+                flash( "Rejected the AdRequest !!","success")
+                return  redirect(url_for("influencer.login"))
+                
+
+            
+            return render_template("influencer_reject.html" , show_info = show_info )
+        
+    flash("Please Login !","faliled")
+    return redirect(url_for("influencer.login"))
+    

@@ -162,7 +162,7 @@ Ad request Management - for the sponsors
 >> Influencers login and Registration (DONE)
 >> Influencers Dashboard _|- Show all `PUBLIC` ad_request (DONE)
                           |- Search  (DONE)
-                          |- able to negociate (TODO)
+                          |- able to negociate (DONE)
 
 
 
@@ -185,4 +185,4 @@ relevance etc.         (DONE)
 [5] If ad_request is already accepted then No negotiation and rejections !!(DONE)
 [6] Accept ad_request (DONE)
 [7] negociate ad_request (DONE)
-[8] Reject ad_request (TODO)
+[8] Reject ad_request (DONE)
