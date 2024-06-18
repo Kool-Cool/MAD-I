@@ -26,6 +26,7 @@ It's a platform to connect Sponsors and Influencers so that sponsors can get the
         `pip install requirements.txt`
 
 - s3] Run the flask project
+        
         `flask --app app.py --debug run`
 
 
