@@ -77,10 +77,7 @@
                 <input type="radio" class="form-check-input" id="rejected" name="status" value="rejected" {% if ad_data.status=='rejected' %}checked{% endif %}>
                 <label class="form-check-label" for="rejected">Rejected</label>
             </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input" id="negotiation" name="status" value="negotiation" {% if ad_data.status=='negotiation' %}checked{% endif %}>
-                <label class="form-check-label" for="negotiation">Negotiation</label>
-            </div>
+
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
